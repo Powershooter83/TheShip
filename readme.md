@@ -2,7 +2,8 @@
 
 Per Terminal sich auf die VM Verbinden
 
-```bashssh theship@192.168.100.21
+```
+
 ``` 
 Password: theship
 
