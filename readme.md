@@ -8,7 +8,7 @@ ssh theship@192.168.100.21
 Password: theship
 
 ## Kubernetes
-> **_INFO:_**  Grundsätzlich würden alle Befehle mit k3s kubectl starten. Jedoch haben wir ein alias gesetzt, daher funktioniert alles mit k!
+> **_INFO:_**  Grundsätzlich würden alle Befehle mit **k3s kubectl** starten. Jedoch haben wir ein alias gesetzt, daher funktioniert alles mit k!
 > Ein Alias kann mit **alias <Abchürzig>=<"Befehl">** im Terminal erstellt werden.
 
 ```bash
