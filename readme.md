@@ -2,8 +2,8 @@
 
 Per Terminal sich auf die VM Verbinden
 
-```
-bashssh theship@192.168.100.21
+```bash
+ssh theship@192.168.100.21
 ``` 
 Password: theship
 
@@ -18,7 +18,6 @@ Externl IP setzen
 ```bash
 k3s kubectl patch svc rabbitmq-cluster-scanner -p '{"spec":{"externalIPs":["192.168.100.21"]}}'
 ```
-    
 
 ## RabbitMQ
 
