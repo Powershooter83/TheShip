@@ -27,8 +27,7 @@ URL
 ```bash
 http://192.168.100.21:15672/
 ```
-
-| Username                         | Password |
-|----------------------------------|:--------:|
-| default_user_b2EKgD6Id6Hp989VC_8 |     J_4rUCXcnlYgGb7JBqqohpdEdI1_ULe4     |
-| guest                            |  guest   |
+| Username                         |             Password             |
+|----------------------------------|:--------------------------------:|
+| default_user_b2EKgD6Id6Hp989VC_8 | J_4rUCXcnlYgGb7JBqqohpdEdI1_ULe4 |
+| guest                            |              guest               |
