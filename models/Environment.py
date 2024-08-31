@@ -1,5 +1,5 @@
-URL = "http://192.168.100.21"
 HOST = "192.168.100.21"
+URL = f"http://{HOST}"
 BASE_URL = f"{URL}:2009/"
 BASE_URL_LASER = f"{URL}:2018/"
 BASE_URL_STORAGE = f"{URL}:2012/"

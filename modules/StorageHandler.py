@@ -9,7 +9,7 @@ from models.Item import Item, ItemContainer
 from models.Vector2 import Vector2
 
 used_positions = []
-def find_lowest_item():
+def find_lowest_item() -> Vector2:
     response = requests.get(f"{BASE_URL_STORAGE}structure")
     for y in reversed(range(10)):
         data = response.json().get("hold")[y]
@@ -19,7 +19,7 @@ def find_lowest_item():
                     continue
                 return Vector2(x, y)
 
-def find_lowest_position():
+def find_lowest_position() -> Vector2:
     response = requests.get(f"{BASE_URL_STORAGE}structure")
     for n in reversed(range(10)):
         data = response.json().get("hold")[n]
@@ -30,7 +30,7 @@ def find_lowest_position():
                 if Vector2(j, n) not in used_positions:
                     used_positions.append(Vector2(j, n))
 
-def get_hold_free():
+def get_hold_free() -> int:
     response = requests.get(f"{BASE_URL_STORAGE}hold")
     data = json.loads(response.text)
     return data.get('hold').get('hold_free')
@@ -55,6 +55,8 @@ def __map_to_item_containers(data: dict) -> List[ItemContainer]:
 def move_lowest_item_to_lowest_position():
     position = find_lowest_position()
     lowest_item = find_lowest_item()
+    if lowest_item is None:
+        return
 
     if lowest_item.x > position.x:
         while lowest_item.x > position.x:

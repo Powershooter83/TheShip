@@ -1,1 +1,2 @@
+#Start KeyCloak
 nohup bin/kc.sh start-dev &

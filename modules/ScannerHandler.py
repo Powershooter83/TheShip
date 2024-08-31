@@ -39,11 +39,10 @@ def wait_for_station_and_total_stop(searched_station: Station):
             last_position = current_position
 
 
-
-def get_current_position():
+def get_current_position() -> Vector2:
     try:
         response = requests.get(f"{BASE_URL_NAVIGATION}pos")
         data = json.loads(response.text).get('pos')
         return Vector2(data.get('x'), data.get('y'))
     except requests.exceptions.RequestException as e:
-        return None, str(e)
+        raise e

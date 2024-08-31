@@ -1,8 +1,8 @@
 import requests
 
-from models.Environment import BASE_URL, BASE_URL_STORAGE, BASE_URL_STORE
+from models.Environment import BASE_URL_STORE
+from models.Item import ItemContainer
 from models.Station import Station
-from models.Item import Item, ItemContainer
 
 
 def buy_item(station: Station, item_container: ItemContainer):

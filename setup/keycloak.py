@@ -14,4 +14,5 @@ def setup_keycloak():
     except requests.exceptions.RequestException as e:
         return None, str(e)
 
+
 print(setup_keycloak())

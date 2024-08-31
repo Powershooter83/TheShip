@@ -1,19 +1,22 @@
 from functools import partial
 from typing import Dict, Callable
 
-from models.Station import Station
+from models.Station import Station, VESTA_STATION, CORE_STATION
 
 AMOUNT = 12
-STATION_START = Station.CORE
-STATION_END = Station.VESTA
+STATION_START = CORE_STATION
+STATION_END = VESTA_STATION
+
 
 def set_amount(new_amount: int):
     global AMOUNT
     AMOUNT = new_amount
 
+
 def set_station_start(new_start_station: Station):
     global STATION_START
     STATION_START = new_start_station
+
 
 def set_station_end(new_end_station: Station):
     global STATION_END
@@ -21,15 +24,15 @@ def set_station_end(new_end_station: Station):
 
 
 methods_dict: Dict[str, Callable[[], str]] = {
-    'setStartStationBtn_VESTA': partial(set_station_start, new_start_station=Station.VESTA),
-    'setStartStationBtn_CORE': partial(set_station_start, new_start_station=Station.CORE),
-    'setEndStationBtn_VESTA': partial(set_station_end, new_end_station=Station.VESTA),
-    'setEndStationBtn_CORE': partial(set_station_end, new_end_station=Station.CORE),
+    'setStartStationBtn_VESTA': partial(set_station_start, new_start_station=VESTA_STATION),
+    'setStartStationBtn_CORE': partial(set_station_start, new_start_station=CORE_STATION),
+    'setEndStationBtn_VESTA': partial(set_station_end, new_end_station=VESTA_STATION),
+    'setEndStationBtn_CORE': partial(set_station_end, new_end_station=CORE_STATION),
     'increaseAmountBtn': partial(set_amount, new_amount=(AMOUNT + 1)),
     'decreaseAmountBtn': partial(set_amount, new_amount=(AMOUNT - 1)),
 }
 
-#!/usr/bin/python3
+# !/usr/bin/python3
 import socket
 import json
 
@@ -45,7 +48,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.sendall(json.dumps(widget_data).encode('utf-8'))
     s.sendall(b'\0')  # null-byte -> end of message
     s.sendall(json.dumps({
-        'kind': 'update_doc',        'doc': doc,
+        'kind': 'update_doc', 'doc': doc,
     }).encode('utf-8'))
     s.sendall(b'\0')  # null-byte -> end of message
     buffer = bytes()
@@ -61,4 +64,3 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             buffer = bytes()
         else:
             buffer += received
-
