@@ -1,3 +1,5 @@
+from time import sleep
+
 import requests
 
 from models.Environment import BASE_URL_LASER
@@ -20,37 +22,33 @@ def deactivate_laser():
         return None, str(e)
 
 
-def state_laser():
+def state_laser() -> LaserState:
     try:
         response = requests.get(f"{BASE_URL_LASER}state")
 
         if response.status_code == 200:
-            data = response.json()  # Parse the JSON response
-            print(data)
+            data = response.json()
             if data["is_mining"]:
                 return LaserState.IS_MINING
             elif data["is_cooling_down"]:
                 return LaserState.IS_COOLING_DOWN
             elif data["is_active"]:
                 return LaserState.IS_ACTIVE
-        else:
-            return response.status_code, response.text
-
     except requests.exceptions.RequestException as e:
-        return None, str(e)
+        raise e
 
 
 def aim_laser():
     angle = 0
     try:
+        activate_laser()
         while 1 == 1:
-            activate_laser()
-            response = requests.put(f"{BASE_URL_LASER}angle", json= {"angle": angle})
+            sleep(1)
+            response = requests.put(f"{BASE_URL_LASER}angle", json={"angle": angle})
             state = state_laser()
-            print(state)
             if state == LaserState.IS_MINING:
                 break
-            angle+=36
+            angle += 36
         return response.status_code, response.text
     except requests.exceptions.RequestException as e:
-        return None, str(e)
+        raise e

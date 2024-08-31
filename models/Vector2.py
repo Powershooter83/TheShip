@@ -8,6 +8,11 @@ class Vector2:
             return self.x == other.x and self.y == other.y
         return False
 
+    def equals_as_integers(self, other):
+        if isinstance(other, Vector2):
+            return int(self.x) == int(other.x) and int(self.y) == int(other.y)
+        return False
+
     def __hash__(self):
         return hash((self.x, self.y))
 
