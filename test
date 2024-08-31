@@ -1,0 +1,1 @@
+nohup bin/kc.sh start-dev &

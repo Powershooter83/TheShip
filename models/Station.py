@@ -1,5 +1,3 @@
-from enum import Enum
-
 from models.Vector2 import Vector2
 
 class Station:
