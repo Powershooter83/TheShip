@@ -1,10 +1,11 @@
 import threading
 from time import sleep
-from models.Station import GOLD_STONE, CORE_STATION
+
+from models.Item import ItemContainer, Item
+from models.Station import CORE_STATION, VESTA_STATION
 from modules.EasySteeringHandler import steer_to_station
-from modules.LaserHandler import aim_laser, activate_laser
 from modules.ScannerHandler import wait_for_station_and_total_stop, wait_for_station
-from modules.ShopHandler import sell_item
+from modules.ShopHandler import sell_item, buy_item
 from modules.StorageHandler import move_lowest_item_to_lowest_position, get_hold_free, get_items
 
 
@@ -15,17 +16,20 @@ def move_item_thread():
 
 
 def start():
-    steer_to_station(GOLD_STONE)
-    wait_for_station_and_total_stop(GOLD_STONE)
-    aim_laser()
+    steer_to_station(VESTA_STATION)
+    wait_for_station_and_total_stop(VESTA_STATION)
+    buy_item(VESTA_STATION, ItemContainer(Item.IRON, get_hold_free()))
 
-    # Multi Thread to avoid delays
-    item_thread = threading.Thread(target=move_item_thread, daemon=True)
-    item_thread.start()
+    # Multi-Threading to avoid delays
+    threads = []
+    for _ in range(3):
+        item_thread = threading.Thread(target=move_item_thread, daemon=True)
+        item_thread.start()
+        threads.append(item_thread)
 
     while get_hold_free() != 0:
-        activate_laser()
-        sleep(10)
+        buy_item(VESTA_STATION, ItemContainer(Item.IRON, get_hold_free()))
+        sleep(15)
 
     steer_to_station(CORE_STATION)
     wait_for_station(CORE_STATION)

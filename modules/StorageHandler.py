@@ -58,24 +58,23 @@ def move_lowest_item_to_lowest_position():
     if lowest_item is None:
         return
 
-    if lowest_item.x > position.x:
-        while lowest_item.x > position.x:
-            out_data = {
-                "a": {"x": lowest_item.x, "y": lowest_item.y},
-                "b": {"x": lowest_item.x - 1, "y": lowest_item.y}
-            }
-            lowest_item.x = lowest_item.x - 1
-            requests.post(f"{BASE_URL_STORAGE}swap_adjacent", json=out_data).json()
-            sleep(.5)
-    elif lowest_item.x < position.x:
-        while lowest_item.x < position.x:
-            out_data = {
-                "a": {"x": lowest_item.x, "y": lowest_item.y},
-                "b": {"x": lowest_item.x + 1, "y": lowest_item.y}
-            }
-            lowest_item.x = lowest_item.x + 1
-            requests.post(f"{BASE_URL_STORAGE}swap_adjacent", json=out_data).json()
-            sleep(.5)
+    while lowest_item.x > position.x:
+        out_data = {
+            "a": {"x": lowest_item.x, "y": lowest_item.y},
+            "b": {"x": lowest_item.x - 1, "y": lowest_item.y}
+        }
+        lowest_item.x = lowest_item.x - 1
+        requests.post(f"{BASE_URL_STORAGE}swap_adjacent", json=out_data).json()
+        sleep(.5)
+
+    while lowest_item.x < position.x:
+        out_data = {
+            "a": {"x": lowest_item.x, "y": lowest_item.y},
+            "b": {"x": lowest_item.x + 1, "y": lowest_item.y}
+        }
+        lowest_item.x = lowest_item.x + 1
+        requests.post(f"{BASE_URL_STORAGE}swap_adjacent", json=out_data).json()
+        sleep(.5)
 
     while lowest_item.y < position.y:
         out_data = {
