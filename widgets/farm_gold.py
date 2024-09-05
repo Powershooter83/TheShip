@@ -6,12 +6,16 @@ from modules.LaserHandler import aim_laser, activate_laser
 from modules.ScannerHandler import wait_for_station_and_total_stop, wait_for_station
 from modules.ShopHandler import sell_item
 from modules.StorageHandler import move_lowest_item_to_lowest_position, get_hold_free, get_items
+from modules.StorageHandlerVerticalOnly import move_first_row
 
 
 def move_item_thread():
+    range_vertical = 10
     while True:
         if get_hold_free() > 0:
-            move_lowest_item_to_lowest_position()
+            move_first_row(range_vertical)
+            sleep(4)
+
 
 
 def start():
