@@ -12,15 +12,14 @@ def move_item_thread():
     while True:
         if get_hold_free() > 0:
             move_lowest_item_to_lowest_position()
-        sleep(1)
+
 
 def start():
     steer_to_station(GOLD_STONE)
     wait_for_station_and_total_stop(GOLD_STONE)
     aim_laser()
 
-
-    #Multi Thread to avoid delays
+    # Multi Thread to avoid delays
     item_thread = threading.Thread(target=move_item_thread, daemon=True)
     item_thread.start()
 
@@ -36,5 +35,6 @@ def start():
             sell_item(CORE_STATION, item_container)
         sleep(1)
     start()
+
 
 start()
