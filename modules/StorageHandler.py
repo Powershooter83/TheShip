@@ -65,7 +65,7 @@ def move_lowest_item_to_lowest_position():
         }
         lowest_item.x = lowest_item.x - 1
         requests.post(f"{BASE_URL_STORAGE}swap_adjacent", json=out_data).json()
-        sleep(.5)
+        sleep(.3)
 
     while lowest_item.x < position.x:
         out_data = {
