@@ -1,3 +1,4 @@
+import base64
 import json
 
 import requests
@@ -25,7 +26,8 @@ s3_client = boto3.client(
 @app.route('/<station>/receive', methods=['POST'])
 def receive(station):
     data = zurro_rest()
-    print(data.text)
+    transform_message = transform_messages(json.loads(data.text).get('received_messages'))
+    print(transform_message)
     # json.loads(data)
     # print(data)
 
@@ -37,6 +39,25 @@ def zurro_rest():
         return requests.post(f"{BASE_URL_ZURRO}receive")
     except requests.exceptions.RequestException as e:
         raise e
+
+
+def transform_messages(received_messages):
+    transformed_messages = []
+
+    for item in received_messages:
+        dest = item["dest"]
+        msg = item["msg"]
+
+        decoded_bytes = base64.b64decode(msg)
+        decoded_str = decoded_bytes.decode('utf-8')
+
+        transformed_messages.append({
+            "destination": dest,
+            "data": decoded_str
+        })
+
+    return transformed_messages
+
 
 
 if __name__ == '__main__':
