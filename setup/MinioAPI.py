@@ -32,10 +32,11 @@ def receive(station):
     json_bytes = json.dumps(transform_message).encode('utf-8')
 
     s3_client.put_object(
-        Bucket=BUCKET_NAME,
-        Key=str(uuid.uuid4()),
-        Body=io.BytesIO(json_bytes),
-        ContentType='application/json'
+        bucket_name=BUCKET_NAME,
+        object_name=str(uuid.uuid4()),
+        data=io.BytesIO(json_bytes),
+        length=len(json_bytes),
+        content_type='application/json'
     )
 
 
