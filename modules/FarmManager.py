@@ -26,7 +26,7 @@ class FarmManager:
     def __laser_process(self):
         while True:
             activate_laser()
-            sleep(10)
+            sleep(4)
 
     def start(self):
         laser_process = None
