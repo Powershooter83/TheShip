@@ -7,7 +7,7 @@ import requests
 from flask import Flask, jsonify
 import boto3
 
-from models.Environment import BASE_URL_ZURRO
+from models.Station import ZURRO_STATION
 
 app = Flask(__name__)
 
@@ -42,9 +42,10 @@ s3_client = boto3.client(
 def receive(station):
     return jsonify({"kind": "success", "messages": f"Received station: {station}"})
 
+
 def zurro_rest():
     try:
-        return requests.post(f"{BASE_URL_ZURRO}receive")
+        return requests.post(f"{ZURRO_STATION.get_url()}receive")
     except requests.exceptions.RequestException as e:
         raise e
 
@@ -65,7 +66,6 @@ def transform_messages(received_messages):
         })
 
     return transformed_messages
-
 
 
 if __name__ == '__main__':

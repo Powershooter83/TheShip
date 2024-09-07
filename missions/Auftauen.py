@@ -13,4 +13,5 @@ def auftauen(vector: Vector2):
         print(activate_laser())
         sleep(4)
 
+
 auftauen(Vector2(-10468, -15193))

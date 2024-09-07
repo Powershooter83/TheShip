@@ -7,7 +7,7 @@ from modules.EasySteeringHandler import steer_to_station
 from modules.LaserHandler import aim_laser, activate_laser
 from modules.ScannerHandler import wait_for_station_and_total_stop, wait_for_station
 from modules.ShopHandler import sell_item, buy_item
-from modules.StorageHandlerVerticalOnly import move_first_row, get_hold_free, get_storage_size, get_items
+from modules.StorageHandler import move_first_row, get_hold_free, get_storage_size, get_items
 
 
 class FarmManager:
