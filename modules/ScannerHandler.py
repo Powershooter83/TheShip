@@ -39,6 +39,21 @@ def wait_for_station_and_total_stop(searched_station: Station):
             last_position = current_position
 
 
+def is_within_tolerance(position: Vector2, target: Vector2, tolerance: float = 150):
+    return (abs(position.x - target.x) <= tolerance) and (abs(position.y - target.y) <= tolerance)
+
+
+def wait_for_coordinates(coordinate: Vector2):
+    while True:
+        sleep(3)
+        current_position = get_current_position()
+        print(f"Current Position: {current_position}")
+        print(f"Target Coordinate: {coordinate}")
+
+        if is_within_tolerance(current_position, coordinate):
+            print("Das Raumschiff bewegt sich nicht mehr.")
+            return
+
 def get_current_position() -> Vector2:
     try:
         response = requests.get(f"{BASE_URL_NAVIGATION}pos")
