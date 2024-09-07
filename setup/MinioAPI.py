@@ -25,22 +25,21 @@ s3_client = boto3.client(
 )
 
 
+# data = zurro_rest()
+# transform_message = transform_messages(json.loads(data.text).get('received_messages'))
+#   json_bytes = json.dumps(transform_message).encode('utf-8')
+#  print(json_bytes)
+
+# s3_client.put_object(
+#     Bucket=BUCKET_NAME,
+#     Key=str(uuid.uuid4()),
+#     Body=io.BytesIO(json_bytes),
+#     ContentType='application/json'
+# )
+
+
 @app.route('/<station>/receive', methods=['POST'])
 def receive(station):
-    # data = zurro_rest()
-    # transform_message = transform_messages(json.loads(data.text).get('received_messages'))
- #   json_bytes = json.dumps(transform_message).encode('utf-8')
-  #  print(json_bytes)
-
-    # s3_client.put_object(
-    #     Bucket=BUCKET_NAME,
-    #     Key=str(uuid.uuid4()),
-    #     Body=io.BytesIO(json_bytes),
-    #     ContentType='application/json'
-    # )
-
-
-
     return jsonify({"kind": "success", "messages": "result"}), 200
 
 def zurro_rest():
