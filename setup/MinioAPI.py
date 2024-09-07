@@ -5,10 +5,7 @@ app = Flask(__name__)
 @app.route('/<station>/receive', methods=['POST'])
 def receive(station):
     try:
-        data = request.json
-        if data is None:
-            raise ValueError("No JSON data received")
-        print(f"Received data at {station}:", data)
+        print(f"Received data at {station}:")
         return jsonify({"kind": "success", "messages": [{"destination": "Shangris Station", "data": [0, 1, 2, 3, 4]}]}), 200
     except Exception as e:
         return jsonify({"kind": "error", "message": str(e)}), 500
