@@ -40,7 +40,7 @@ s3_client = boto3.client(
 
 @app.route('/<station>/receive', methods=['POST'])
 def receive(station):
-    return jsonify({"kind": "success", "messages": "result"}), 200
+    return jsonify({"kind": "success", "messages": f"Received station: {station}"}), 200
 
 def zurro_rest():
     try:
