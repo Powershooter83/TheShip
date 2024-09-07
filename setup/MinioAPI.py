@@ -8,7 +8,7 @@ from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 app = Flask(__name__)
 
 # MinIO-Konfiguration
-MINIO_ENDPOINT = '	http://192.168.100.21:2016'
+MINIO_ENDPOINT = 'http://192.168.100.21:2016'
 MINIO_ACCESS_KEY = 'theship'
 MINIO_SECRET_KEY = 'theship1234'
 BUCKET_NAME = 'theship-permastore'
