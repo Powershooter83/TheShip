@@ -40,11 +40,16 @@ def state_laser() -> LaserState:
 
 def aim_laser():
     angle = 0
+    restart_laser = 3
     try:
-        activate_laser()
         while 1 == 1:
+            if restart_laser == 3:
+                activate_laser()
+                restart_laser = 0
+
             sleep(1)
             response = requests.put(f"{BASE_URL_LASER}angle", json={"angle": angle})
+            restart_laser += 1
             state = state_laser()
             if state == LaserState.IS_MINING:
                 break
