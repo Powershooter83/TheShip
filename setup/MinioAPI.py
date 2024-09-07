@@ -1,5 +1,7 @@
 import base64
+import io
 import json
+import uuid
 
 import requests
 from flask import Flask, jsonify
@@ -26,13 +28,18 @@ s3_client = boto3.client(
 @app.route('/<station>/receive', methods=['POST'])
 def receive(station):
     data = zurro_rest()
-    data1 = json.loads(data.text)
-    print(data1)
-    print(data1.get('received_messages'))
     transform_message = transform_messages(json.loads(data.text).get('received_messages'))
-    print(transform_message)
-    # json.loads(data)
-    # print(data)
+    json_bytes = json.dumps(transform_message).encode('utf-8')
+
+
+    s3_client.put_object(
+        BUCKET_NAME,
+        str(uuid.uuid4()),
+        io.BytesIO(json_bytes),
+        len(json_bytes),
+        content_type='application/json'
+    )
+
 
 
     return jsonify({"kind": "success", "messages": "result"}), 200
