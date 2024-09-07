@@ -26,6 +26,9 @@ s3_client = boto3.client(
 @app.route('/<station>/receive', methods=['POST'])
 def receive(station):
     data = zurro_rest()
+    data1 = json.loads(data.text)
+    print(data1)
+    print(data1.get('received_messages'))
     transform_message = transform_messages(json.loads(data.text).get('received_messages'))
     print(transform_message)
     # json.loads(data)
