@@ -34,7 +34,7 @@ def receive(station):
 
 def zurro_rest():
     try:
-        return requests.post(f"{BASE_URL_ZURRO}download")
+        return requests.post(f"{BASE_URL_ZURRO}receive")
     except requests.exceptions.RequestException as e:
         raise e
 
