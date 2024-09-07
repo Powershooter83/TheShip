@@ -26,8 +26,8 @@ s3_client = boto3.client(
 def receive(station):
     data = zurro_rest()
     print(data)
-    json.loads(data)
-    print(data)
+    # json.loads(data)
+    # print(data)
 
 
     return jsonify({"kind": "success", "messages": "result"}), 200
