@@ -35,6 +35,7 @@ def receive(station):
         Bucket=BUCKET_NAME,
         Key=str(uuid.uuid4()),
         Body=io.BytesIO(json_bytes),
+        ContentType='application/json'
     )
 
 
