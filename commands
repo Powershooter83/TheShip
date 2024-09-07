@@ -1,2 +1,4 @@
 #Start KeyCloak
 nohup bin/kc.sh start-dev &
+source venv/bin/activate
+minio server /home/shared --console-address :9090 --address :2016
