@@ -23,6 +23,8 @@ def start_laser_thread():
 
 def start_buy_item_thread(buy_station: Station, item_container: ItemContainer):
     while True:
+        if stop_event.is_set():
+            break
         buy_item(buy_station, item_container)
         sleep(2)
 
