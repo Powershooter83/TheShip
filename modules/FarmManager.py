@@ -9,10 +9,17 @@ from modules.ScannerHandler import wait_for_station_and_total_stop, wait_for_sta
 from modules.ShopHandler import sell_item, buy_item
 from modules.StorageHandler import move_first_row, get_hold_free, get_storage_size, get_items
 
+stop_event = threading.Event()
+
+
 def start_laser_thread():
-    while True:
+    while not stop_event.is_set():
         print(activate_laser())
-        sleep(10)
+        for _ in range(10):
+            if stop_event.is_set():
+                break
+            sleep(1)
+
 
 def start_buy_item_thread(buy_station: Station, item_container: ItemContainer):
     while True:
@@ -38,7 +45,8 @@ class FarmManager:
             laser_thread = threading.Thread(target=start_laser_thread)
             laser_thread.start()
         else:
-            buy_thread = threading.Thread(target=start_buy_item_thread, args=(self.buy_station, ItemContainer(self.item_type, get_hold_free())))
+            buy_thread = threading.Thread(target=start_buy_item_thread,
+                                          args=(self.buy_station, ItemContainer(self.item_type, get_hold_free())))
             buy_thread.start()
 
         vertical_size, horizontal_size = get_storage_size()
@@ -46,6 +54,7 @@ class FarmManager:
             if get_hold_free() > 0:
                 move_first_row(vertical_size)
             else:
+                stop_event.set()
                 if self.laser:
                     laser_thread.join()
                 else:
