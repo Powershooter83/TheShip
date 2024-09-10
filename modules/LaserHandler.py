@@ -9,7 +9,7 @@ from models.LaserState import LaserState
 def activate_laser():
     try:
         response = requests.post(f"{BASE_URL_LASER}activate")
-        return response.status_code, response.text
+        return response.status_code
     except requests.exceptions.RequestException as e:
         return None, str(e)
 
@@ -44,7 +44,12 @@ def aim_laser():
     try:
         while 1 == 1:
             if restart_laser == 3:
-                activate_laser()
+                status_code = activate_laser()
+                if status_code == 403:
+                    print('MAX-REQUEST/MIN REACHED!')
+                    print('WAITING 60 SECONDS')
+                    sleep(60)
+                    activate_laser()
                 restart_laser = 0
 
             sleep(1)

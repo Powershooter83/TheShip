@@ -32,7 +32,7 @@ def __move_item_down(x_position, items_in_column):
         }
         y_position += 1
         requests.post(f"{BASE_URL_STORAGE}swap_adjacent", json=out_data).json()
-        sleep(.3)
+        sleep(.5)
 
 
 def __find_items_in_column(data, column_index, vertical_size) -> int:
