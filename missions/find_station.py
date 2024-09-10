@@ -46,5 +46,5 @@ def search_colony():
 
 thread_station = threading.Thread(target=wait_for_station)
 thread_station.start()
-# search_colony()
+search_colony()
 thread_station.join()
