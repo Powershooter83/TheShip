@@ -2,7 +2,7 @@ import threading
 from time import sleep
 
 from models.Item import ItemContainer, Item
-from models.Station import Station
+from models.Station import Station, StationEnum
 from modules.EasySteeringHandler import steer_to_station
 from modules.LaserHandler import aim_laser, activate_laser
 from modules.ScannerHandler import wait_for_station_and_total_stop, wait_for_station
@@ -70,4 +70,5 @@ class FarmManager:
             for item_container in get_items():
                 sell_item(self.sell_station, item_container)
             sleep(1)
+        stop_event.clear()
         self.start()

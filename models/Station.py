@@ -1,3 +1,5 @@
+from enum import Enum
+
 from models.Environment import URL
 from models.Vector2 import Vector2
 
@@ -12,16 +14,18 @@ class Station:
         return f"{URL}:{self.port}/"
 
 
-# RESOURCES
-GOLD_STONE = Station("Gold Stone", Vector2(-10200, 20500.0), None)
+class ColonyEnum(Enum):
+    ARCHITECT = Station("Architect Colony", Vector2(0, 0), None)
 
-# COLONIES
-ARCHITECT_COLONY = Station("Architect Colony", Vector2(0, 0), None)
 
-# STATIONS
-ARAK_STATION = Station("Arak Station", Vector2(2712, -4044.0), None)
-AZURA_STATION = Station("Azura Station", Vector2(-1000, 1000), 2030)
-CORE_STATION = Station("Core Station", Vector2(0, 0), None)
-TWENTY_ONE_B_STATION = Station("21-B", Vector2(-17375, -6278.0), None)
-VESTA_STATION = Station("Vesta Station", Vector2(10000, 10000), None)
-ZURRO_STATION = Station("Zurro Station", Vector2(5608.0, 9386.0), 2029)
+class ResourceEnum(Enum):
+    GOLD = Station("Gold Stone", Vector2(-10200, 20500.0), None)
+
+
+class StationEnum(Enum):
+    ARAK = Station("Arak Station", Vector2(2712, -4044.0), None)
+    AZURA = Station("Azura Station", Vector2(-1000, 1000), 2030)
+    CORE = Station("Core Station", Vector2(0, 0), None)
+    TWENTY_ONE_B = Station("21-B", Vector2(-17375, -6278.0), None)
+    VESTA = Station("Vesta Station", Vector2(10000, 10000), None)
+    ZURRO = Station("Zurro Station", Vector2(5608.0, 9386.0), 2029)
