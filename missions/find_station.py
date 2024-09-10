@@ -16,17 +16,17 @@ def wait_for_station():
 
 
 def search_colony():
-    center_x = -80000
-    center_y = -80000
+    center_x = 0
+    center_y = 0
 
-    deviation = 32000
+    deviation = 150000
 
     start_x = center_x - deviation
     end_x = center_x + deviation
     start_y = center_y - deviation
     end_y = center_y + deviation
 
-    step_size = 2000
+    step_size = 3000
 
     x = start_x
     while x <= end_x:
