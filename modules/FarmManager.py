@@ -12,7 +12,7 @@ from modules.StorageHandler import move_first_row, get_hold_free, get_storage_si
 def start_laser_thread():
     while True:
         print(activate_laser())
-        sleep(8)
+        sleep(10)
 
 def start_buy_item_thread(buy_station: Station, item_container: ItemContainer):
     while True:
