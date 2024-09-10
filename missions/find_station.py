@@ -1,3 +1,4 @@
+import json
 import threading
 
 from models.Vector2 import Vector2
@@ -11,6 +12,9 @@ def wait_for_station():
     while True:
         for station in wait_for_any_station():
             if station not in unique_stations:
+                f = open("stations.json", "a")
+                f.write(json.dumps(station) + "\n")
+                f.close()
                 unique_stations.append(station)
                 print(station)
 
