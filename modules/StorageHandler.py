@@ -5,41 +5,66 @@ from typing import List
 import requests
 
 from models.Environment import BASE_URL_STORAGE
-from models.Item import Item, ItemContainer
-from models.Vector2 import Vector2
+from models.Item import ItemContainer, Item
 
-used_positions = []
-def find_lowest_item() -> Vector2:
+
+def move_first_row(vertical_size: int):
     response = requests.get(f"{BASE_URL_STORAGE}structure")
-    for y in reversed(range(10)):
-        data = response.json().get("hold")[y]
-        for x in reversed(range(12)):
-            if data[x] is not None:
-                if Vector2(x, y) in used_positions:
-                    continue
-                return Vector2(x, y)
 
-def find_lowest_position() -> Vector2:
+    data = response.json().get("hold")
+    row = data[0]
+
+    for x_position, item in enumerate(row):
+        if item is not None:
+            items_in_column = __find_items_in_column(data, x_position, vertical_size)
+            if items_in_column == 0:
+                continue
+            __move_item_down(x_position, items_in_column)
+            break
+
+
+def __move_item_down(x_position, items_in_column):
+    y_position = 0
+    for y in range(items_in_column):
+        out_data = {
+            "a": {"x": x_position, "y": y_position},
+            "b": {"x": x_position, "y": y_position + 1}
+        }
+        y_position += 1
+        requests.post(f"{BASE_URL_STORAGE}swap_adjacent", json=out_data).json()
+        sleep(.5)
+
+
+def __find_items_in_column(data, column_index, vertical_size) -> int:
+    items_in_column = vertical_size
+
+    for row_index, row in reversed(list(enumerate(data))):
+        item = row[column_index]
+        if item is not None and items_in_column != 0:
+            items_in_column -= 1
+        else:
+            break
+
+    return items_in_column
+
+
+def get_storage_size() -> tuple:
     response = requests.get(f"{BASE_URL_STORAGE}structure")
-    for n in reversed(range(10)):
-        data = response.json().get("hold")[n]
-        for j in reversed(range(12)):
-            if data[j] is None:
-                return Vector2(j, n)
-            else:
-                if Vector2(j, n) not in used_positions:
-                    used_positions.append(Vector2(j, n))
-
-def get_hold_free() -> int:
-    response = requests.get(f"{BASE_URL_STORAGE}hold")
-    data = json.loads(response.text)
-    return data.get('hold').get('hold_free')
+    structure = json.loads(response.text).get('hold')
+    return len(structure) - 1, len(structure[0]) - 1
 
 
 def get_items() -> List[ItemContainer]:
     response = requests.get(f"{BASE_URL_STORAGE}hold")
     data = json.loads(response.text)
     return __map_to_item_containers(data.get('hold').get('resources'))
+
+
+def get_hold_free() -> int:
+    response = requests.get(f"{BASE_URL_STORAGE}hold")
+    data = json.loads(response.text)
+    return data.get('hold').get('hold_free')
+
 
 def __map_to_item_containers(data: dict) -> List[ItemContainer]:
     containers = []
@@ -51,37 +76,3 @@ def __map_to_item_containers(data: dict) -> List[ItemContainer]:
             except KeyError:
                 continue
     return containers
-
-def move_lowest_item_to_lowest_position():
-    position = find_lowest_position()
-    lowest_item = find_lowest_item()
-    if lowest_item is None:
-        return
-
-    if lowest_item.x > position.x:
-        while lowest_item.x > position.x:
-            out_data = {
-                "a": {"x": lowest_item.x, "y": lowest_item.y},
-                "b": {"x": lowest_item.x - 1, "y": lowest_item.y}
-            }
-            lowest_item.x = lowest_item.x - 1
-            requests.post(f"{BASE_URL_STORAGE}swap_adjacent", json=out_data).json()
-            sleep(.5)
-    elif lowest_item.x < position.x:
-        while lowest_item.x < position.x:
-            out_data = {
-                "a": {"x": lowest_item.x, "y": lowest_item.y},
-                "b": {"x": lowest_item.x + 1, "y": lowest_item.y}
-            }
-            lowest_item.x = lowest_item.x + 1
-            requests.post(f"{BASE_URL_STORAGE}swap_adjacent", json=out_data).json()
-            sleep(.5)
-
-    while lowest_item.y < position.y:
-        out_data = {
-            "a": {"x": lowest_item.x, "y": lowest_item.y},
-            "b": {"x": lowest_item.x, "y": lowest_item.y + 1}
-        }
-        lowest_item.y = lowest_item.y + 1
-        requests.post(f"{BASE_URL_STORAGE}swap_adjacent", json=out_data).json()
-        sleep(.5)
