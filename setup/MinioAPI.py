@@ -45,7 +45,15 @@ def __artemis_interface_receive(destination_station: Station):
     messages = []
     for destination, data in response_receive:
         if destination == destination_station.name:
-            print(data, file=sys.stdout)
+            # Base64 dekodieren
+            decoded_bytes = base64.b64decode(data)
+
+            # JSON-Daten aus den Bytes laden
+            decoded_json = json.loads(decoded_bytes.decode('utf-8'))
+
+            # Auf das Attribut `message` zugreifen
+            message = decoded_json.get("message", "")
+            print(message, file=sys.stdout)
 
             decoded_bytes = base64.b64decode(data)
             messages.append({"destination": "Azura Station", "data": list(decoded_bytes)})
