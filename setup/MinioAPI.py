@@ -46,7 +46,7 @@ def send(station_name):
     print('CALLED-1', file=sys.stdout)
     station = __find_station_by_name(station_name)
     print('CALLED-12', file=sys.stdout)
-    print(request, file=sys.stdout)
+    print(request.get_json(force=True), file=sys.stdout)
     data = request.json
     print('CALLED-123', file=sys.stdout)
     source_station = __find_station_by_name(data['source'])
