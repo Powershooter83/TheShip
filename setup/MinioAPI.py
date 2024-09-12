@@ -55,7 +55,7 @@ def send(station_name):
 
 @app.route('/<dest_station_name>/receive', methods=['POST'])
 def receive(dest_station_name):
-    print(dest_station_name)
+    print(dest_station_name,  file=sys.stdout)
     destination_station = __find_station_by_name(dest_station_name)
     match destination_station:
         case StationEnum.ZURRO:
