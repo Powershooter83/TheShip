@@ -50,7 +50,6 @@ def __artemis_interface_receive(destination_station: Station):
 
             print(data, file=sys.stdout)
             print(json.loads(data.decode('utf-8')).get('message'), file=sys.stdout)
-            print(base64.b64decode(json.loads(data.decode('utf-8')).get('message')))
 
             msg = json.loads(data.decode('utf-8')).get('message')
             decoded_bytes = base64.b64decode(json.loads(msg).get('data'))
