@@ -61,6 +61,7 @@ def __artemis_interface_receive(destination_station: Station):
             # Bytes in bytearray umwandeln
             json_bytearray = bytearray(json_bytes)
             print("JSON Bytearray:", json_bytearray, file=sys.stdout)
+            print("JSON Bytearray:", list(json_bytearray), file=sys.stdout)
             decoded_bytes = base64.b64decode(json.loads(msg).get('data'))
             messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
     return {"kind": "success", "messages": messages}
