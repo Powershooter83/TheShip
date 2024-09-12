@@ -21,6 +21,9 @@ def receive(station):
 
 @app.route('/<station>/send', methods=['POST'])
 def send(station):
+
+   if station == 'Zurro Station':
+       print('ZURRO STATION')
    print(station)
 
    return None
@@ -56,5 +59,5 @@ def transform_messages(received_messages):
 
     return transformed_messages
 
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port=2023, debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=2023, debug=True)
