@@ -48,9 +48,11 @@ def __artemis_interface_receive(destination_station: Station):
             if isinstance(data, xmlrpc.client.Binary):
                 data = data.data
 
+            print(data, file=sys.stdout)
+
             msg = json.loads(data.decode('utf-8')).get('message')
             decoded_bytes = base64.b64decode(json.loads(msg).get('data'))
-            messages.append({"destination": destination_station.name, "data": list(list(decoded_bytes))})
+            messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
     return {"kind": "success", "messages": messages}
 
 
