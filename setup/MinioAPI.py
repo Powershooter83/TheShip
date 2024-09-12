@@ -28,6 +28,7 @@ def __zurro_interface_send(station: StationEnum, msg):
 def __zurro_interface_receive(station_destination: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.ZURRO.value.get_url()}receive").text).get("received_messages")
     messages = []
+    print(received_messages)
     for message in received_messages:
         dest = message.get("dest")
         if dest == station_destination.name:
@@ -53,12 +54,8 @@ def send(station_name):
 @app.route('/<station_name>/receive', methods=['POST'])
 def receive(station_name):
     station = __find_station_by_name(station_name)
-    print('1->', file=sys.stdout)
-    print(station_name, file=sys.stdout)
-    print(station.value, file=sys.stdout)
     match station:
         case StationEnum.ZURRO:
-            print("ZURRO", file=sys.stdout)
             return __zurro_interface_receive(station.value)
 
 
