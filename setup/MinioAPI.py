@@ -1,12 +1,9 @@
 import base64
-import io
 import json
 import sys
-import uuid
 
 import requests
-from flask import Flask, jsonify, request
-import boto3
+from flask import Flask, request
 
 from models.Station import StationEnum, Station
 
@@ -41,7 +38,7 @@ def __zurro_interface_receive(station_destination: Station):
     return {"kind": "success", "messages": messages}
 
 
-@app.route('/<station>/send', methods=['POST'])
+@app.route('/<station_name>/send', methods=['POST'])
 def send(station_name):
     station = __find_station_by_name(station_name)
     data = request.json
@@ -52,7 +49,7 @@ def send(station_name):
             return __zurro_interface_send(source_station, data['data'])
 
 
-@app.route('/<station>/receive', methods=['POST'])
+@app.route('/<station_name>/receive', methods=['POST'])
 def send(station_name):
     station = __find_station_by_name(station_name)
     print('This is standard output', file=sys.stdout)
