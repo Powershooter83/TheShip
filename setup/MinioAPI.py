@@ -32,6 +32,7 @@ def __zurro_interface_receive(station_destination: Station):
     for message in received_messages:
         dest = message.get("dest")
         print(dest, file=sys.stdout)
+        print(station_destination.name, file=sys.stdout)
         if dest == station_destination.name:
             print("DESTINATION", file=sys.stdout)
             print(dest, file=sys.stdout)
