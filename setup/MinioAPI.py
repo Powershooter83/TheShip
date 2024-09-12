@@ -1,6 +1,5 @@
 import base64
 import json
-import sys
 
 import requests
 from flask import Flask, request
@@ -20,7 +19,7 @@ def __azura_interface_send(station: Station, msg):
     base64_string = base64_encoded.decode('utf-8')
 
     data = {"sending_station": station.name, "base64data": base64_string}
-    print(requests.post(f"{StationEnum.AZURA.value.get_url()}put_message", json=data))
+    requests.post(f"{StationEnum.AZURA.value.get_url()}put_message", json=data)
 
 def __zurro_interface_receive(destination_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.ZURRO.value.get_url()}receive").text).get("received_messages")
@@ -42,7 +41,8 @@ def send(dest_station_name):
     source_station = __find_station_by_name(data['source'])
     match dest_station:
         case StationEnum.AZURA:
-            return __azura_interface_send(source_station.value, data['data'])
+            __azura_interface_send(source_station.value, data['data'])
+    return {"kind": "success"}
 
 
 @app.route('/<source_station_name>/receive', methods=['POST'])
