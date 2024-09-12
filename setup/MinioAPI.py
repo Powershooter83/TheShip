@@ -33,9 +33,9 @@ def __zurro_interface_receive(source_station: Station):
 
         if dest == "Azura Station":
             msg = message.get("msg")
-            # decoded_bytes = base64.b64decode(msg)
-            # decoded_str = decoded_bytes.decode('utf-8')
-            messages.append({"destination": "Azura Station", "data": msg})
+            decoded_bytes = base64.b64decode(msg)
+            decoded_str = decoded_bytes.decode('utf-8')
+            messages.append({"destination": "Azura Station", "data": decoded_str})
     return {"kind": "success", "messages": messages}
 
 
@@ -54,6 +54,7 @@ def receive(source_station_name):
     source_station = __find_station_by_name(source_station_name)
     match source_station:
         case StationEnum.ZURRO:
+            print(__zurro_interface_receive(source_station.value), file=sys.stdout)
             return __zurro_interface_receive(source_station.value)
 
 
