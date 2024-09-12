@@ -7,7 +7,7 @@ import requests
 from flask import Flask, jsonify
 import boto3
 
-from models.Station import ZURRO_STATION
+from models.Station import StationEnum
 
 app = Flask(__name__)
 
@@ -45,7 +45,7 @@ def receive(station):
 
 def zurro_rest():
     try:
-        return requests.post(f"{ZURRO_STATION.get_url()}receive")
+        return requests.post(f"{StationEnum.ZURRO.value.get_url()}receive")
     except requests.exceptions.RequestException as e:
         raise e
 
