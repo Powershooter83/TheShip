@@ -16,12 +16,11 @@ def __find_station_by_name(station_name):
 
 
 def __zurro_interface_send(station: Station, msg):
-    print(station, file=sys.stdout)
-    print(msg,  file=sys.stdout)
-    decoded_bytes = base64.b64decode(msg)
-    decoded_str = decoded_bytes.decode('utf-8')
+    base64_encoded = base64.b64encode(msg)
+    base64_string = base64_encoded.decode('utf-8')
 
-    data = {"src": station.value.name, "msg": decoded_str}
+    data = {"src": station.name, "msg": base64_string}
+    print(data, file=sys.stdout)
     return requests.post(f"{StationEnum.ZURRO.value.get_url()}send", json=data)
 
 def __zurro_interface_receive(destination_station: Station):
