@@ -31,6 +31,8 @@ def __zurro_interface_receive(station_destination: Station):
     for message in received_messages:
         dest = message.get("dest")
         if dest == station_destination.name:
+            print("DESTINATION", file=sys.stdout)
+            print(dest, file=sys.stdout)
             msg = message.get("msg")
             decoded_bytes = base64.b64decode(msg)
             decoded_str = decoded_bytes.decode('utf-8')
@@ -43,7 +45,6 @@ def send(station_name):
     station = __find_station_by_name(station_name)
     data = request.json
     source_station = __find_station_by_name(data['source'])
-    print('This is standard output', file=sys.stdout)
     match station:
         case StationEnum.ZURRO:
             return __zurro_interface_send(source_station, data['data'])
@@ -52,9 +53,12 @@ def send(station_name):
 @app.route('/<station_name>/receive', methods=['POST'])
 def receive(station_name):
     station = __find_station_by_name(station_name)
-    print('This is standard output', file=sys.stdout)
+    print('1->', file=sys.stdout)
+    print(station_name, file=sys.stdout)
+    print(station.value, file=sys.stdout)
     match station:
         case StationEnum.ZURRO:
+            print("ZURRO", file=sys.stdout)
             return __zurro_interface_receive(station.value)
 
 
