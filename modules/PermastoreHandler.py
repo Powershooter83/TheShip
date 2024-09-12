@@ -4,7 +4,7 @@ from models.Environment import BASE_URL_PERMASTORE
 from models.Station import Station
 
 
-def download_to_permastore(from_destination: Station, to_destination: Station):
+def download_to_permastore():
     data = {"source": "Elyse Terminal",
             "destination": "Artemis Station"}
 
@@ -16,4 +16,4 @@ def download_to_permastore12():
                          json={"source": "Zurro Station", "destination": "Azura Station"})
 
 
-print(download_to_permastore12().text)
+print(download_to_permastore().text)
