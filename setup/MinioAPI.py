@@ -15,8 +15,11 @@ def __find_station_by_name(station_name):
             return station
 
 
-def __zurro_interface_send(station: StationEnum, msg):
+def __zurro_interface_send(station: Station, msg):
     try:
+
+        print(station, file=sys.stdout)
+        print(msg,  file=sys.stdout)
         decoded_bytes = base64.b64decode(msg)
         decoded_str = decoded_bytes.decode('utf-8')
 
@@ -45,7 +48,7 @@ def send(station_name):
     source_station = __find_station_by_name(data['source'])
     match station:
         case StationEnum.ZURRO:
-            return __zurro_interface_send(source_station, data['data'])
+            return __zurro_interface_send(source_station.value, data['data'])
 
 
 @app.route('/<source_station_name>/receive', methods=['POST'])
