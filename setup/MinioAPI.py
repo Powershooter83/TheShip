@@ -11,43 +11,32 @@ from models.Station import StationEnum
 
 app = Flask(__name__)
 
-# MinIO-Konfiguration
-MINIO_ENDPOINT = 'http://192.168.100.21:2016'
-MINIO_ACCESS_KEY = 'theship'
-MINIO_SECRET_KEY = 'theship1234'
-BUCKET_NAME = 'theship-permastore'
-
-s3_client = boto3.client(
-    's3',
-    endpoint_url=MINIO_ENDPOINT,
-    aws_access_key_id=MINIO_ACCESS_KEY,
-    aws_secret_access_key=MINIO_SECRET_KEY
-)
-
-
-# data = zurro_rest()
-# transform_message = transform_messages(json.loads(data.text).get('received_messages'))
-#   json_bytes = json.dumps(transform_message).encode('utf-8')
-#  print(json_bytes)
-
-# s3_client.put_object(
-#     Bucket=BUCKET_NAME,
-#     Key=str(uuid.uuid4()),
-#     Body=io.BytesIO(json_bytes),
-#     ContentType='application/json'
-# )
-
-
 @app.route('/<station>/receive', methods=['POST'])
 def receive(station):
+    data = zurro_rest()
+    print(transform_messages(json.loads(data.text).get('received_messages')))
+
     return jsonify({"kind": "success", "messages": f"Received station: {station}"})
 
+
+@app.route('/<station>/send', methods=['POST'])
+def send(station):
+   print(station)
+
+   return None
 
 def zurro_rest():
     try:
         return requests.post(f"{StationEnum.ZURRO.value.get_url()}receive")
     except requests.exceptions.RequestException as e:
         raise e
+
+data = zurro_rest()
+
+
+
+
+
 
 
 def transform_messages(received_messages):
@@ -66,7 +55,6 @@ def transform_messages(received_messages):
         })
 
     return transformed_messages
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=2023, debug=True)
