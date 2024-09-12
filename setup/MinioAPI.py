@@ -51,7 +51,7 @@ def __artemis_interface_receive(destination_station: Station):
 
 
             msg = json.loads(data.decode('utf-8')).get('message')
-            json_string = json.dumps(data)
+            json_string = json.dumps(msg)
             print("JSON String:", json_string, file=sys.stdout)
 
             # JSON-String in Bytes umwandeln
