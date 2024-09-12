@@ -37,16 +37,13 @@ def __zurro_interface_receive(destination_station: Station):
     return {"kind": "success", "messages": messages}
 
 
-@app.route('/<station_name>/send', methods=['POST'])
-def send(station_name):
-    station = __find_station_by_name(station_name)
+@app.route('/<dest_station_name>/send', methods=['POST'])
+def send(dest_station_name):
+    dest_station = __find_station_by_name(dest_station_name)
     data = request.get_json(force=True)
-    print(data, file=sys.stdout)
     source_station = __find_station_by_name(data['source'])
-    print('11', file=sys.stdout)
-    print(station, file=sys.stdout)
-    match station:
-        case StationEnum.ZURRO:
+    match dest_station:
+        case StationEnum.AZURA:
             return __zurro_interface_send(source_station.value, data['data'])
 
 
