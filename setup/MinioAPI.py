@@ -25,21 +25,17 @@ def __zurro_interface_send(station: StationEnum, msg):
     except requests.exceptions.RequestException as e:
         raise e
 
-def __zurro_interface_receive(destination_station: Station):
+def __zurro_interface_receive(source_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.ZURRO.value.get_url()}receive").text).get("received_messages")
     messages = []
-    print(received_messages)
     for message in received_messages:
         dest = message.get("dest")
-        print(dest, file=sys.stdout)
-        print(destination_station.name, file=sys.stdout)
-        if dest == destination_station.name:
-            print("DESTINATION", file=sys.stdout)
-            print(dest, file=sys.stdout)
+
+        if dest == "Azura Station":
             msg = message.get("msg")
             decoded_bytes = base64.b64decode(msg)
             decoded_str = decoded_bytes.decode('utf-8')
-            messages.append({"destination": destination_station.name, "data": decoded_str})
+            messages.append({"destination": "Azura Station", "data": decoded_str})
     return {"kind": "success", "messages": messages}
 
 
@@ -53,14 +49,12 @@ def send(station_name):
             return __zurro_interface_send(source_station, data['data'])
 
 
-@app.route('/<dest_station_name>/receive', methods=['POST'])
-def receive(dest_station_name):
-    print(dest_station_name)
-    print(request.json, file=sys.stdout)
-    destination_station = __find_station_by_name(dest_station_name)
-    match destination_station:
+@app.route('/<source_station_name>/receive', methods=['POST'])
+def receive(source_station_name):
+    source_station = __find_station_by_name(source_station_name)
+    match source_station:
         case StationEnum.ZURRO:
-            return __zurro_interface_receive(destination_station.value)
+            return __zurro_interface_receive(source_station_name.value)
 
 
 if __name__ == '__main__':
