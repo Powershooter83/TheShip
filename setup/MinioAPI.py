@@ -1,6 +1,7 @@
 import base64
 import io
 import json
+import sys
 import uuid
 
 import requests
@@ -32,6 +33,7 @@ def send(station_name):
     station = __find_station_by_name(station_name)
     data = request.json
     source_station = __find_station_by_name(data['source'])
+    print('This is standard output', file=sys.stdout)
     match station:
         case StationEnum.ZURRO:
             return __zurro_interface_send(source_station, data['data'])
