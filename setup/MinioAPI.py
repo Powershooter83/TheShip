@@ -50,7 +50,7 @@ def send(station_name):
 
 
 @app.route('/<station_name>/receive', methods=['POST'])
-def send(station_name):
+def receive(station_name):
     station = __find_station_by_name(station_name)
     print('This is standard output', file=sys.stdout)
     match station:
