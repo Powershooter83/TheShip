@@ -1,5 +1,6 @@
 import base64
 import json
+import sys
 import xmlrpc.client
 
 import requests
@@ -46,6 +47,7 @@ def __artemis_interface_receive(destination_station: Station):
     messages = []
     for destination, data in response_receive:
         if destination == destination_station.name:
+            print(data, file=sys.stdout)
             decoded_bytes = base64.b64decode(data)
             messages.append({"destination": "Azura Station", "data": list(decoded_bytes)})
     return {"kind": "success", "messages": messages}
