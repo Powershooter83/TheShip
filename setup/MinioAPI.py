@@ -46,8 +46,13 @@ def __artemis_interface_receive(destination_station: Station):
     for destination, data in response_receive:
         if destination == destination_station.name:
             print(data, file=sys.stdout)
-            print(json.loads(data), file=sys.stdout)
-            print(json.loads(data).get("message"), file=sys.stdout)
+
+            # Falls data als Binary-Objekt vorliegt, in Bytes umwandeln
+            if isinstance(data, xmlrpc.client.Binary):
+                data = data.data
+
+            # JSON-Daten aus den Bytes laden
+            decoded_json = json.loads(data.decode('utf-8'))
 
             # decoded_bytes = base64.b64decode(data)
             # messages.append({"destination": "Azura Station", "data": list(decoded_bytes)})
