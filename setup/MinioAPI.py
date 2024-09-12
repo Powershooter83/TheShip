@@ -15,13 +15,13 @@ def __find_station_by_name(station_name):
             return station
 
 
-def __zurro_interface_send(station: Station, msg):
+def __azura_interface_send(station: Station, msg):
     base64_encoded = base64.b64encode(bytearray(msg))
     base64_string = base64_encoded.decode('utf-8')
 
-    data = {"src": station.name, "msg": base64_string}
+    data = {"sending_station": station.name, "base64data": base64_string}
     print(data, file=sys.stdout)
-    print(requests.post(f"{StationEnum.AZURA.value.get_url()}send", json=data))
+    print(requests.post(f"{StationEnum.AZURA.value.get_url()}put_messages", json=data))
 
 def __zurro_interface_receive(destination_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.ZURRO.value.get_url()}receive").text).get("received_messages")
@@ -43,7 +43,7 @@ def send(dest_station_name):
     source_station = __find_station_by_name(data['source'])
     match dest_station:
         case StationEnum.AZURA:
-            return __zurro_interface_send(source_station.value, data['data'])
+            return __azura_interface_send(source_station.value, data['data'])
 
 
 @app.route('/<source_station_name>/receive', methods=['POST'])
