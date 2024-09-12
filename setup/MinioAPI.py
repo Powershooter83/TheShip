@@ -25,16 +25,15 @@ def __zurro_interface_send(station: StationEnum, msg):
     except requests.exceptions.RequestException as e:
         raise e
 
-def __zurro_interface_receive(source_station: Station):
+def __zurro_interface_receive(destination_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.ZURRO.value.get_url()}receive").text).get("received_messages")
     messages = []
     for message in received_messages:
         dest = message.get("dest")
 
-        if dest == "Azura Station":
+        if dest == destination_station.name:
             msg = message.get("msg")
             decoded_bytes = base64.b64decode(msg)
-            decoded_str = decoded_bytes.decode('utf-8')
             messages.append({"destination": "Azura Station", "data": list(decoded_bytes)})
     return {"kind": "success", "messages": messages}
 
@@ -54,8 +53,7 @@ def receive(source_station_name):
     source_station = __find_station_by_name(source_station_name)
     match source_station:
         case StationEnum.ZURRO:
-            print(__zurro_interface_receive(source_station.value), file=sys.stdout)
-            return __zurro_interface_receive(source_station.value)
+            return __zurro_interface_receive(StationEnum.AZURA.value)
 
 
 if __name__ == '__main__':
