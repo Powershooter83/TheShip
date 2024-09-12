@@ -16,6 +16,7 @@ def __find_station_by_name(station_name):
 
 
 def __zurro_interface_send(station: Station, msg):
+    print(msg, file=sys.stdout)
     base64_encoded = base64.b64encode(msg)
     base64_string = base64_encoded.decode('utf-8')
 
