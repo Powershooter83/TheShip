@@ -1,5 +1,6 @@
 import base64
 import json
+import xmlrpc.client
 
 import requests
 from flask import Flask, request
@@ -34,6 +35,23 @@ def __zurro_interface_receive(destination_station: Station):
     return {"kind": "success", "messages": messages}
 
 
+def __artemis_interface_receive(destination_station: Station):
+    server_url = "http://192.168.100.21:2024/RPC2"
+    proxy = xmlrpc.client.ServerProxy(server_url)
+    data = bytearray(b"Beispiel-Daten")
+
+    proxy.send("Artemis Station", xmlrpc.client.Binary(data))
+    response_receive = proxy.receive()
+
+    messages = []
+    for destination, data in response_receive:
+        if destination == destination_station.name:
+            decoded_bytes = base64.b64decode(data)
+            messages.append({"destination": "Azura Station", "data": list(decoded_bytes)})
+    return {"kind": "success", "messages": messages}
+
+
+
 @app.route('/<dest_station_name>/send', methods=['POST'])
 def send(dest_station_name):
     dest_station = __find_station_by_name(dest_station_name)
@@ -52,6 +70,8 @@ def receive(source_station_name):
 
         case StationEnum.ZURRO:
             return __zurro_interface_receive(StationEnum.AZURA.value)
+        case StationEnum.ARTEMIS:
+            return __artemis_interface_receive(StationEnum.AZURA.value)
 
 
 if __name__ == '__main__':
