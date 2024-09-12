@@ -43,8 +43,11 @@ def __zurro_interface_receive(destination_station: Station):
 
 @app.route('/<station_name>/send', methods=['POST'])
 def send(station_name):
+    print('CALLED-1', file=sys.stdout)
     station = __find_station_by_name(station_name)
+    print('CALLED-12', file=sys.stdout)
     data = request.json
+    print('CALLED-123', file=sys.stdout)
     source_station = __find_station_by_name(data['source'])
     print(station_name, file=sys.stdout)
     print(station.value, file=sys.stdout)
