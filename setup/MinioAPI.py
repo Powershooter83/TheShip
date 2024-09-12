@@ -20,8 +20,7 @@ def __azura_interface_send(station: Station, msg):
     base64_string = base64_encoded.decode('utf-8')
 
     data = {"sending_station": station.name, "base64data": base64_string}
-    print(data, file=sys.stdout)
-    print(requests.post(f"{StationEnum.AZURA.value.get_url()}put_messages", json=data))
+    print(requests.post(f"{StationEnum.AZURA.value.get_url()}put_message", json=data))
 
 def __zurro_interface_receive(destination_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.ZURRO.value.get_url()}receive").text).get("received_messages")
