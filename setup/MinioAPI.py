@@ -46,6 +46,8 @@ def send(station_name):
     station = __find_station_by_name(station_name)
     data = request.json
     source_station = __find_station_by_name(data['source'])
+    print(station_name, file=sys.stdout)
+    print(station.value, file=sys.stdout)
     match station:
         case StationEnum.ZURRO:
             return __zurro_interface_send(source_station.value, data['data'])
