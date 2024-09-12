@@ -16,17 +16,13 @@ def __find_station_by_name(station_name):
 
 
 def __zurro_interface_send(station: Station, msg):
-    try:
+    print(station, file=sys.stdout)
+    print(msg,  file=sys.stdout)
+    decoded_bytes = base64.b64decode(msg)
+    decoded_str = decoded_bytes.decode('utf-8')
 
-        print(station, file=sys.stdout)
-        print(msg,  file=sys.stdout)
-        decoded_bytes = base64.b64decode(msg)
-        decoded_str = decoded_bytes.decode('utf-8')
-
-        data = {"src": station.value.name, "msg": decoded_str}
-        return requests.post(f"{StationEnum.ZURRO.value.get_url()}send", json=data)
-    except requests.exceptions.RequestException as e:
-        raise e
+    data = {"src": station.value.name, "msg": decoded_str}
+    return requests.post(f"{StationEnum.ZURRO.value.get_url()}send", json=data)
 
 def __zurro_interface_receive(destination_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.ZURRO.value.get_url()}receive").text).get("received_messages")
@@ -46,6 +42,7 @@ def send(station_name):
     station = __find_station_by_name(station_name)
     data = request.get_json(force=True)
     source_station = __find_station_by_name(data['source'])
+    print(station, file=sys.stdout)
     match station:
         case StationEnum.ZURRO:
             return __zurro_interface_send(source_station.value, data['data'])
