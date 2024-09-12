@@ -54,7 +54,7 @@ def receive(source_station_name):
     source_station = __find_station_by_name(source_station_name)
     match source_station:
         case StationEnum.ZURRO:
-            return __zurro_interface_receive(source_station_name.value)
+            return __zurro_interface_receive(source_station.value)
 
 
 if __name__ == '__main__':
