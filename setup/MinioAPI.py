@@ -46,6 +46,7 @@ def send(station_name):
     print('CALLED-1', file=sys.stdout)
     station = __find_station_by_name(station_name)
     print('CALLED-12', file=sys.stdout)
+    print(request, file=sys.stdout)
     data = request.json
     print('CALLED-123', file=sys.stdout)
     source_station = __find_station_by_name(data['source'])
@@ -60,6 +61,7 @@ def send(station_name):
 def receive(source_station_name):
     source_station = __find_station_by_name(source_station_name)
     match source_station:
+
         case StationEnum.ZURRO:
             return __zurro_interface_receive(StationEnum.AZURA.value)
 
