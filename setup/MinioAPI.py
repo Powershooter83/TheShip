@@ -64,8 +64,11 @@ async def __elyse_interface_receive(destination_station):
     async with websockets.connect(server_url) as websocket:
         message = await websocket.recv()
 
-        response_data = json.loads(message)
-        print(response_data, file=sys.stdout)
+        while True:
+            response_data = json.loads(message)
+            print(json.loads(response_data), file=sys.stdout)
+            print(response_data, file=sys.stdout)
+            break
         #
         # for item in response_data:
         #     destination = item.get("destination")
