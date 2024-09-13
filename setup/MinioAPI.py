@@ -23,9 +23,15 @@ def __azura_interface_send(station: Station, msg):
     base64_encoded = base64.b64encode(bytearray(msg))
     base64_string = base64_encoded.decode('utf-8')
 
-    data = {"sending_station": station.name, "base64data": base64_string}
-    requests.post(f"{StationEnum.AZURA.value.get_url()}put_message", json=data)
+    data = {"source": station.name, "message": base64_string}
+    requests.post(f"{StationEnum.AZURA.value.get_url()}send", json=data)
 
+def __core_interface_send(station: Station, msg):
+    base64_encoded = base64.b64encode(bytearray(msg))
+    base64_string = base64_encoded.decode('utf-8')
+
+    data = {"sending_station": station.name, "base64data": base64_string}
+    requests.post(f"{StationEnum.CORE.value.get_url()}put_message", json=data)
 
 def __zurro_interface_receive(destination_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.ZURRO.value.get_url()}receive").text).get(
@@ -97,6 +103,8 @@ async def send(dest_station_name):
     match dest_station:
         case StationEnum.AZURA:
             __azura_interface_send(source_station.value, data['data'])
+        case StationEnum.CORE:
+            __core_interface_send(source_station.value, data['data'])
     return {"kind": "success"}
 
 
