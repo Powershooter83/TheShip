@@ -92,8 +92,8 @@ def __aurora_interface_receive(destination_station: Station):
             decoded_data= decoded_data.strip()
             json_str = json.dumps(json.loads(decoded_data), separators=(',', ':'))
             json_bytes = json_str.encode('utf-8')
-            base64_bytes = base64.b64encode(json_bytes)
-            print(base64_bytes, file=sys.stdout)
+
+            print(json_bytes, file=sys.stdout)
             # messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
     return {"kind": "success", "messages": messages}
 
