@@ -64,7 +64,7 @@ def __zurro_interface_receive(destination_station: Station):
     return {"kind": "success", "messages": messages}
 
 
-def __aurora_interface_receive(destination_station: Station):
+async def __aurora_interface_receive(destination_station: Station):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.connect(('192.168.100.21', 2031))
 
@@ -92,7 +92,6 @@ def __aurora_interface_receive(destination_station: Station):
             decoded_data= decoded_data.strip()
             decoded_bytes = base64.b64decode(json.loads(decoded_data).get('message'))
             messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
-    print(messages, file=sys.stdout)
     return {"kind": "success", "messages": messages}
 
 def __core_interface_receive(destination_station: Station):
@@ -173,7 +172,7 @@ async def receive(source_station_name):
         case StationEnum.AZURA:
             return __azura_interface_receive(StationEnum.CORE.value)
         case StationEnum.AURORA:
-            return __aurora_interface_receive(StationEnum.AURORA.value)
+            return await __aurora_interface_receive(StationEnum.AURORA.value)
     return {"kind": "success"}
 
 if __name__ == '__main__':
