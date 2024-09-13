@@ -32,3 +32,4 @@ class StationEnum(Enum):
     Arakrock = Station("Arakrock 2", Vector2(0,0), None)
     ARTEMIS = Station("Artemis Station", Vector2(0,0), None)
     ELYSE_TERMINAL = Station("Elyse Terminal", Vector2(0,0), None)
+    AURORA = Station("Aurora Station", Vector2(0,0), 2031)

@@ -1,6 +1,7 @@
 import base64
 import json
-import sys
+import socket
+import struct
 
 import websockets
 import xmlrpc.client
@@ -59,6 +60,57 @@ def __zurro_interface_receive(destination_station: Station):
             decoded_bytes = base64.b64decode(msg)
             messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
     return {"kind": "success", "messages": messages}
+
+
+def __aurora_interface_receive(destination_station: str):
+    server_ip = '192.168.100.21'
+    server_port = 2031
+
+    # Verbindung zum Server herstellen
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.connect((server_ip, server_port))
+
+        # Beispielnachricht vorbereiten (src_dst und src_or_dst Werte anpassen)
+        src_dst = 1  # Beispielwert für src/dst (1 Byte)
+        src_or_dst = destination_station  # Zielquelle oder -adresse (UTF-8)
+        msg = b'Test message'  # Beispielnachricht (Byte-Array)
+
+        # Größe der Nachricht berechnen
+        msg_size = len(src_or_dst) + len(msg)
+
+        # Nachricht zusammenbauen
+        message = struct.pack('>H', msg_size)  # Größe der Nachricht (2 Bytes, big endian)
+        message += struct.pack('>B', src_dst)  # Quelle/Ziel (1 Byte)
+        message += src_or_dst.encode('utf-8')  # Quelle oder Ziel (UTF-8)
+        message += msg  # Nachricht (Byte-Array)
+
+        # Nachricht senden
+        sock.sendall(message)
+
+        # Empfang der vollständigen Antwort
+        data = b''
+        while True:
+            chunk = sock.recv(4096)  # Puffergröße von 4096 Bytes
+            if not chunk:
+                break
+            data += chunk
+
+            if len(data) >= 3:  # Mindestens 3 Bytes (size of msg, src/dst)
+                msg_size = struct.unpack('>H', data[:2])[0]
+                if len(data) >= 3 + msg_size:
+                    break
+
+        # Nachricht zerlegen
+        if len(data) >= 3:
+            msg_size = struct.unpack('>H', data[:2])[0]
+            src_dst = struct.unpack('>B', data[2:3])[0]
+            src_or_dst_len = len(data[3:]) - msg_size
+            src_or_dst = data[3:3 + src_or_dst_len].decode('utf-8')
+            response_msg = data[3 + src_or_dst_len:]
+
+            print(f"Received data from {src_or_dst} ({src_dst}): {response_msg}")
+        else:
+            print("Received incomplete or invalid data.")
 
 def __core_interface_receive(destination_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.CORE.value.get_url()}receive").text).get(
@@ -137,6 +189,8 @@ async def receive(source_station_name):
             return __core_interface_receive(StationEnum.AZURA.value)
         case StationEnum.AZURA:
             return __azura_interface_receive(StationEnum.CORE.value)
+        case StationEnum.AURORA:
+            return __aurora_interface_receive(StationEnum.AURORA.value)
     return {"kind": "success"}
 
 if __name__ == '__main__':
