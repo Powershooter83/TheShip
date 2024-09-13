@@ -47,7 +47,7 @@ def __azura_interface_receive(destination_station: Station):
     #         msg = message.get("base64data")
     #         decoded_bytes = base64.b64decode(msg)
     #         messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
-  #  return {"kind": "success", "messages": messages}
+    return {"kind": "success", "messages": []}
 
 
 def __zurro_interface_receive(destination_station: Station):
