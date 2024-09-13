@@ -6,11 +6,11 @@ import websockets
 import xmlrpc.client
 
 import requests
-from flask import Flask, request
+from quart import Quart, request
 
 from models.Station import StationEnum, Station
 
-app = Flask(__name__)
+app = Quart(__name__)
 
 def __find_station_by_name(station_name):
     for station in StationEnum:
@@ -98,7 +98,7 @@ def send(dest_station_name):
 
 
 @app.route('/<source_station_name>/receive', methods=['POST'])
-def receive(source_station_name):
+async def receive(source_station_name):
     source_station = __find_station_by_name(source_station_name)
     match source_station:
 
@@ -106,6 +106,8 @@ def receive(source_station_name):
             return __zurro_interface_receive(StationEnum.AZURA.value)
         case StationEnum.ARTEMIS:
             return __artemis_interface_receive(StationEnum.AZURA.value)
+        case StationEnum.ELYSE_TERMINAL:
+            return await __elyse_interface_receive(StationEnum.AZURA.value)
 
 
 if __name__ == '__main__':
