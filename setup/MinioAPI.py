@@ -33,6 +33,20 @@ def __core_interface_send(station: Station, msg):
     data = {"source": station.name, "message": base64_string}
     requests.post(f"{StationEnum.CORE.value.get_url()}send", json=data)
 
+def __azura_interface_receive(destination_station: Station):
+    received_messages = json.loads(requests.post(f"{StationEnum.AZURA.value.get_url()}messages_for_other_stations").text).get(
+        "received_messages")
+    messages = []
+    for message in received_messages:
+        dest = message.get("dest")
+
+        if dest == destination_station.name:
+            msg = message.get("base64data")
+            decoded_bytes = base64.b64decode(msg)
+            messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
+    return {"kind": "success", "messages": messages}
+
+
 def __zurro_interface_receive(destination_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.ZURRO.value.get_url()}receive").text).get(
         "received_messages")
@@ -121,6 +135,8 @@ async def receive(source_station_name):
             return await __elyse_interface_receive(StationEnum.AZURA.value)
         case StationEnum.CORE:
             return __core_interface_receive(StationEnum.AZURA.value)
+        case StationEnum.AZURA:
+            return __azura_interface_receive(StationEnum.CORE.value)
     return {"kind": "success"}
 
 if __name__ == '__main__':
