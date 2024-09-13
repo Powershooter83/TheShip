@@ -63,18 +63,8 @@ async def __elyse_interface_receive(destination_station):
     print('ELYSE_TERMINAL', file=sys.stdout)
 
     async with websockets.connect(server_url) as websocket:
-        print("Connected to the WebSocket server")
-
-        try:
-            while True:
-                # Warte auf eine Nachricht vom Server
-                message = await websocket.recv()
-                print(f"Received message from server: {message}")
-
-        except websockets.ConnectionClosed:
-            print("Connection closed by the server")
-        except Exception as e:
-            print(f"An error occurred: {e}")
+        message = await websocket.recv()
+        print(f"Received message from server: {message}")
         # print(f"Sent to server: {request_data}", file=sys.stdout)
 
         # response = await websocket.recv()
