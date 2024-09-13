@@ -89,6 +89,7 @@ async def __aurora_interface_receive(destination_station: Station):
             response_msg = data[3 + src_or_dst_len:]
 
             decoded_data =response_msg.decode('utf-8')
+            print(decoded_data, file=sys.stdout)
             decoded_data= decoded_data.strip()
             decoded_bytes = base64.b64decode(json.loads(decoded_data).get('message'))
             messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
