@@ -36,15 +36,15 @@ def __core_interface_send(station: Station, msg):
 def __azura_interface_receive(destination_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.AZURA.value.get_url()}messages_for_other_stations").text).get(
         "received_messages")
-    messages = []
-    for message in received_messages:
-        dest = message.get("dest")
-
-        if dest == destination_station.name:
-            msg = message.get("base64data")
-            decoded_bytes = base64.b64decode(msg)
-            messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
-    return {"kind": "success", "messages": messages}
+    # messages = []
+    # for message in received_messages:
+    #     dest = message.get("dest")
+    #
+    #     if dest == destination_station.name:
+    #         msg = message.get("base64data")
+    #         decoded_bytes = base64.b64decode(msg)
+    #         messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
+  #  return {"kind": "success", "messages": messages}
 
 
 def __zurro_interface_receive(destination_station: Station):
