@@ -66,16 +66,16 @@ async def __elyse_interface_receive(destination_station):
 
         response_data = json.loads(message)
         print(response_data, file=sys.stdout)
-
-        for item in response_data:
-            destination = item.get("destination")
-            data = item.get("data")
-
-            if destination == destination_station.name:
-                json_string = json.dumps(json.loads(data))
-                json_bytes = json_string.encode('utf-8')
-                json_bytearray = bytearray(json_bytes)
-                messages.append({"destination": destination_station.name, "data": list(json_bytearray)})
+        #
+        # for item in response_data:
+        #     destination = item.get("destination")
+        #     data = item.get("data")
+        #
+        #     if destination == destination_station.name:
+        #         json_string = json.dumps(json.loads(data))
+        #         json_bytes = json_string.encode('utf-8')
+        #         json_bytearray = bytearray(json_bytes)
+        #         messages.append({"destination": destination_station.name, "data": list(json_bytearray)})
 
     return {"kind": "success", "messages": messages}
 
