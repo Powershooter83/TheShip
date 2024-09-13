@@ -89,8 +89,7 @@ def __aurora_interface_receive(destination_station: Station):
 
             decoded_data =response_msg.decode('utf-8')
             decoded_data= decoded_data.strip()
-            print(json.loads(decoded_data), file=sys.stdout)
-            print({response_msg}, file=sys.stdout)
+            print(json.loads(decoded_data).get('message'), file=sys.stdout)
     return {"kind": "success", "messages": []}
 
 def __core_interface_receive(destination_station: Station):
