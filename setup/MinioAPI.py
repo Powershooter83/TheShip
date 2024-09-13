@@ -3,6 +3,7 @@ import json
 import socket
 import struct
 import sys
+from xmlrpc.client import SafeTransport
 
 import websockets
 import xmlrpc.client
@@ -63,7 +64,7 @@ def __zurro_interface_receive(destination_station: Station):
     return {"kind": "success", "messages": messages}
 
 
-def __aurora_interface_receive(destination_station: str):
+def __aurora_interface_receive(destination_station: Station):
     server_ip = '192.168.100.21'
     server_port = 2031
 
@@ -73,7 +74,7 @@ def __aurora_interface_receive(destination_station: str):
 
         # Beispielnachricht vorbereiten (src_dst und src_or_dst Werte anpassen)
         src_dst = 1  # Beispielwert für src/dst (1 Byte)
-        src_or_dst = destination_station  # Zielquelle oder -adresse (UTF-8)
+        src_or_dst = destination_station.name  # Zielquelle oder -adresse (UTF-8)
         msg = b'Test message'  # Beispielnachricht (Byte-Array)
 
         # Größe der Nachricht berechnen
