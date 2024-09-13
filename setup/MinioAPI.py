@@ -113,7 +113,7 @@ async def receive(source_station_name):
             return await __elyse_interface_receive(StationEnum.AZURA.value)
         case StationEnum.CORE:
             return __core_interface_receive(StationEnum.AZURA.value)
-
+    return {"kind": "success"}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=2023, debug=True)
