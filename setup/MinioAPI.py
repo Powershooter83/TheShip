@@ -37,8 +37,8 @@ def __azura_interface_receive(destination_station: Station):
     data = requests.post(f"{StationEnum.AZURA.value.get_url()}messages_for_other_stations")
     print(data, file=sys.stdout)
     print(data.text, file=sys.stdout)
-    received_messages = json.loads(requests.post(f"{StationEnum.AZURA.value.get_url()}messages_for_other_stations").text).get(
-        "received_messages")
+    # received_messages = json.loads(requests.post(f"{StationEnum.AZURA.value.get_url()}messages_for_other_stations").text).get(
+    #     "received_messages")
     # messages = []
     # for message in received_messages:
     #     dest = message.get("dest")
