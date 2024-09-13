@@ -66,7 +66,6 @@ async def __elyse_interface_receive(destination_station):
 
         while True:
             response_data = json.loads(message)
-            print(json.loads(response_data), file=sys.stdout)
             print(response_data, file=sys.stdout)
             break
         #
