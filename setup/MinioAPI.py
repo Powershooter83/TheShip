@@ -2,6 +2,7 @@ import base64
 import json
 import socket
 import struct
+import sys
 
 import websockets
 import xmlrpc.client
@@ -108,9 +109,9 @@ def __aurora_interface_receive(destination_station: str):
             src_or_dst = data[3:3 + src_or_dst_len].decode('utf-8')
             response_msg = data[3 + src_or_dst_len:]
 
-            print(f"Received data from {src_or_dst} ({src_dst}): {response_msg}")
+            print(f"Received data from {src_or_dst} ({src_dst}): {response_msg}", file=sys.stdout)
         else:
-            print("Received incomplete or invalid data.")
+            print("Received incomplete or invalid data.", file=sys.stdout)
 
 def __core_interface_receive(destination_station: Station):
     received_messages = json.loads(requests.post(f"{StationEnum.CORE.value.get_url()}receive").text).get(
