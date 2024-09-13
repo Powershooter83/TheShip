@@ -25,7 +25,7 @@ class ResourceEnum(Enum):
 class StationEnum(Enum):
     ARAK = Station("Arak Station", Vector2(2712, -4044.0), None)
     AZURA = Station("Azura Station", Vector2(-1000, 1000), 2030)
-    CORE = Station("Core Station", Vector2(0, 0), None)
+    CORE = Station("Core Station", Vector2(0, 0), 2027)
     TWENTY_ONE_B = Station("21-B", Vector2(-17375, -6278.0), None)
     VESTA = Station("Vesta Station", Vector2(10000, 10000), None)
     ZURRO = Station("Zurro Station", Vector2(5608.0, 9386.0), 2029)

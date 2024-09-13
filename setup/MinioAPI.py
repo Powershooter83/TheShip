@@ -37,8 +37,22 @@ def __zurro_interface_receive(destination_station: Station):
         if dest == destination_station.name:
             msg = message.get("msg")
             decoded_bytes = base64.b64decode(msg)
-            messages.append({"destination": "Azura Station", "data": list(decoded_bytes)})
+            messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
     return {"kind": "success", "messages": messages}
+
+def __core_interface_receive(destination_station: Station):
+    received_messages = json.loads(requests.post(f"{StationEnum.CORE.value.get_url()}receive").text).get(
+        "received_messages")
+    messages = []
+    for message in received_messages:
+        dest = message.get("target")
+
+        if dest == destination_station.name:
+            msg = message.get("data")
+            decoded_bytes = base64.b64decode(msg)
+            messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
+    return {"kind": "success", "messages": messages}
+
 
 
 def __artemis_interface_receive(destination_station: Station):
@@ -97,6 +111,8 @@ async def receive(source_station_name):
             return __artemis_interface_receive(StationEnum.AZURA.value)
         case StationEnum.ELYSE_TERMINAL:
             return await __elyse_interface_receive(StationEnum.AZURA.value)
+        case StationEnum.CORE:
+            return __core_interface_receive(StationEnum.AZURA.value)
 
 
 if __name__ == '__main__':
