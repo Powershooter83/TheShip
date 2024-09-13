@@ -76,9 +76,9 @@ async def __elyse_interface_receive(destination_station):
 
 
 @app.route('/<dest_station_name>/send', methods=['POST'])
-def send(dest_station_name):
+async def send(dest_station_name):
     dest_station = __find_station_by_name(dest_station_name)
-    data = request.get_json(force=True)
+    data = await request.get_json(force=True)
     source_station = __find_station_by_name(data['source'])
     match dest_station:
         case StationEnum.AZURA:
