@@ -1,6 +1,8 @@
 import base64
 import json
 import sys
+
+import websockets
 import xmlrpc.client
 
 import requests
@@ -47,13 +49,41 @@ def __artemis_interface_receive(destination_station: Station):
         if destination == destination_station.name:
             if isinstance(data, xmlrpc.client.Binary):
                 data = data.data
-            # msg = json.loads(data.decode('utf-8')).get('message')
             json_string = json.dumps(json.loads(data.decode('utf-8')))
             json_bytes = json_string.encode('utf-8')
             json_bytearray = bytearray(json_bytes)
             messages.append({"destination": destination_station.name, "data": list(json_bytearray)})
     return {"kind": "success", "messages": messages}
 
+
+
+async def __elyse_interface_receive(destination_station):
+    server_url = "ws://192.168.100.21:2026/api"
+    messages = []
+
+    async with websockets.connect(server_url) as websocket:
+        print("Connected to Elyse Terminal")
+
+        request_data = json.dumps({"action": "receive", "destination": destination_station.name})
+        await websocket.send(request_data)
+        print(f"Sent to server: {request_data}", file=sys.stdout)
+
+        response = await websocket.recv()
+        print(f"Received from server: {response}", file=sys.stdout)
+
+        response_data = json.loads(response)
+
+        for item in response_data:
+            destination = item.get("destination")
+            data = item.get("data")
+
+            if destination == destination_station.name:
+                json_string = json.dumps(json.loads(data))
+                json_bytes = json_string.encode('utf-8')
+                json_bytearray = bytearray(json_bytes)
+                messages.append({"destination": destination_station.name, "data": list(json_bytearray)})
+
+    return {"kind": "success", "messages": messages}
 
 
 @app.route('/<dest_station_name>/send', methods=['POST'])
