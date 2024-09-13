@@ -69,6 +69,7 @@ def __aurora_interface_receive(destination_station: Station):
         sock.connect(('192.168.100.21', 2031))
 
         data = b''
+        messages = []
         while True:
             chunk = sock.recv(4096)
             if not chunk:
@@ -89,7 +90,9 @@ def __aurora_interface_receive(destination_station: Station):
 
             decoded_data =response_msg.decode('utf-8')
             decoded_data= decoded_data.strip()
-            print(json.loads(decoded_data).get('message'), file=sys.stdout)
+            decoded_bytes = base64.b64decode(json.loads(decoded_data).get('message'))
+            print(decoded_bytes, file=sys.stdout)
+            messages.append({"destination": destination_station.name, "data": list(decoded_bytes)})
     return {"kind": "success", "messages": []}
 
 def __core_interface_receive(destination_station: Station):
