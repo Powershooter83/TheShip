@@ -2,3 +2,9 @@
 nohup bin/kc.sh start-dev &
 source venv/bin/activate
 minio server /home/shared --console-address :9090 --address :2016
+
+curl -XPOST http://192.168.100.21:2019/download --data '{"source": "Zurro Station", "destination": "Azura Station"}'
+curl -XPOST http://192.168.100.21:2019/download --data '{"source": "Artemis Station", "destination": "Azura Station"}'
+
+
+python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. api.proto
