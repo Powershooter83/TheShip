@@ -2,11 +2,18 @@ from time import sleep
 
 import requests
 
+from models.EnergyComponent import EnergyComponent
 from models.Environment import BASE_URL_LASER
 from models.LaserState import LaserState
+from models.EnergyComponentEnum import EnergyComponentEnum
+from modules.EnergyManagement import change_energy
 
 
 def activate_laser():
+    energyComponentList = [
+        EnergyComponent(EnergyComponentEnum.LASER, 1.0)
+    ]
+    change_energy(energyComponentList)
     try:
         response = requests.post(f"{BASE_URL_LASER}activate")
         return response.status_code
@@ -15,6 +22,10 @@ def activate_laser():
 
 
 def deactivate_laser():
+    energyComponentList = [
+        EnergyComponent(EnergyComponentEnum.LASER, 0.0)
+    ]
+    change_energy(energyComponentList)
     try:
         response = requests.post(f"{BASE_URL_LASER}deactivate")
         return response.status_code, response.text
