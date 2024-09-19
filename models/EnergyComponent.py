@@ -5,11 +5,11 @@ class EnergyComponent:
 
     def __eq__(self, other):
         if isinstance(other, EnergyComponent):
-            return self.component == other.componten and self.limit == other.limit
+            return self.component == other.component and self.limit == other.limit
         return False
 
     def __hash__(self):
         return hash((self.component, self.limit))
 
     def __repr__(self):
-        return f"EnergyComponent(x={self.component}, y={self.limit})"
+        return f"EnergyComponent(component={self.component}, limit={self.limit})"
