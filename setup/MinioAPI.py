@@ -2,7 +2,6 @@ import base64
 import json
 import socket
 import struct
-import sys
 from xmlrpc.client import SafeTransport
 
 import websockets
@@ -11,6 +10,7 @@ import xmlrpc.client
 import requests
 from quart import Quart, request
 
+from models.Environment import HOST
 from models.Station import StationEnum, Station
 
 app = Quart(__name__)
@@ -66,7 +66,7 @@ def __zurro_interface_receive(destination_station: Station):
 
 def __aurora_interface_receive(destination_station: Station):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.connect(('192.168.100.21', 2031))
+        sock.connect((HOST, 2031))
 
         data = b''
         messages = []
@@ -112,7 +112,7 @@ def __core_interface_receive(destination_station: Station):
 
 
 def __artemis_interface_receive(destination_station: Station):
-    server_url = "http://192.168.100.21:2024/RPC2"
+    server_url = "http://" + HOST + ":2024/RPC2"
     proxy = xmlrpc.client.ServerProxy(server_url)
 
     response_receive = proxy.receive()
@@ -130,7 +130,7 @@ def __artemis_interface_receive(destination_station: Station):
 
 
 async def __elyse_interface_receive(destination_station):
-    server_url = "ws://192.168.100.21:2026/api"
+    server_url = "ws://" + HOST + ":2026/api"
     messages = []
 
     async with websockets.connect(server_url) as websocket:
