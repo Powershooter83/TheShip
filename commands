@@ -8,3 +8,21 @@ curl -XPOST http://192.168.100.21:2019/download --data '{"source": "Artemis Stat
 
 
 python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. api.proto
+
+
+
+1. // KEYCLOAK STARUTP
+screen -S keycloak
+cd /opt/keycloak/bin
+./kc.sh start-dev
+
+2. LONG RANGE COMMUNICATOR
+cd /TheShip/setup
+source venv/bin/activate
+export PYTHONPATH=$PYTHONPATH:/TheShip
+
+3. MINIO
+minio server /home/shared --console-address :9090 --address :2016
+
+4. MongoDB
+sudo systemctl start mongod
