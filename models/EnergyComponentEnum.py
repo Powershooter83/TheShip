@@ -11,4 +11,5 @@ class EnergyComponentEnum(Enum):
     LASER = "laser"
     CARGO_BOT = "cargo_bot"
     SCANNER = "scanner"
+    JUMPDRIVE = "jumpdrive"
 
