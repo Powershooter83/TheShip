@@ -2,8 +2,7 @@ from typing import List
 
 import requests
 
-from models.EnergyComponent import EnergyComponent
-from models.EnergyComponentEnum import EnergyComponentEnum
+from models.EnergyComponent import EnergyComponent, EnergyComponentEnum
 from models.Environment import BASE_URL_E_MANAGEMENT_NODE1, BASE_URL_E_MANAGEMENT_NODE2, BASE_URL
 
 
@@ -60,3 +59,14 @@ def _get_energy_components_from_api() -> List[EnergyComponent]:
                 break
 
     return energy_components
+
+
+def energy_mode_flying():
+    set_all_components_to_value(0.0)
+    set_energy(EnergyComponent(EnergyComponentEnum.THRUSTER_BACK, 1))
+    set_energy(EnergyComponent(EnergyComponentEnum.THRUSTER_FRONT, 1))
+    set_energy(EnergyComponent(EnergyComponentEnum.THRUSTER_FRONT_LEFT, 1))
+    set_energy(EnergyComponent(EnergyComponentEnum.THRUSTER_FRONT_RIGHT, 1))
+    set_energy(EnergyComponent(EnergyComponentEnum.THRUSTER_BOTTOM_LEFT, 1))
+    set_energy(EnergyComponent(EnergyComponentEnum.SCANNER, 1))
+    set_energy(EnergyComponent(EnergyComponentEnum.THRUSTER_BOTTOM_RIGHT, 1))

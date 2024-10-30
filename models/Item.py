@@ -8,6 +8,7 @@ class Item(Enum):
     PLATIN = "PLATIN"
     URAN = "URAN"
     IRIDIUM = "IRIDIUM"
+    FRAGILON = "FRAGILON"
 
 
 class ItemContainer:

@@ -21,6 +21,7 @@ class ColonyEnum(Enum):
 class ResourceEnum(Enum):
     GOLD = Station("Gold Stone", Vector2(-10200, 20500.0), None)
     PLATIN = Station("Platin Mountain", Vector2(50700,78000), None)
+    FRAGILON = Station("Fragilon Rock", Vector2(0,0), None)
 
 class StationEnum(Enum):
     ARAK = Station("Arak Station", Vector2(2712, -4044.0), None)
