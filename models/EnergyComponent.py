@@ -12,6 +12,9 @@ class EnergyComponentEnum(Enum):
     CARGO_BOT = "cargo_bot"
     SCANNER = "scanner"
     JUMPDRIVE = "jumpdrive"
+    SENSOR_ATOMIC_FIELD = "sensor_atomic_field"
+    SENSOR_VOID_ENERGY = "sensor_void_energy"
+    SHIELD_GENERATOR = "shield_generator"
 
 
 class EnergyComponent:

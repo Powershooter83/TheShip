@@ -22,7 +22,7 @@ def steer_to_coordinates(vector2: Vector2):
         return None, str(e)
 
 
-def follow_spaceship(spaceship):
+def follow_spaceship(spaceship, location: Vector2):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=HOST, port=2014))
     channel = connection.channel()
 
@@ -31,11 +31,14 @@ def follow_spaceship(spaceship):
     queue_name = result.method.queue
     channel.queue_bind(exchange='scanner/detected_objects', queue=queue_name)
 
+    steer_to_coordinates(location)
+
     for method_frame, properties, body in channel.consume(queue=queue_name, auto_ack=True):
         data = json.loads(body.decode('utf-8'))
 
         for station in data:
             if station['name'] == spaceship:
+                print('steer_to_coordinates!')
                 steer_to_coordinates(Vector2(station['pos']['x'], station['pos']['y']))
 
 
