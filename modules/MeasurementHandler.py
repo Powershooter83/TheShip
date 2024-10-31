@@ -33,10 +33,12 @@ def trigger_measurement_and_store():
             time.sleep(2)  # Wartezeit für erneute Abfragen
 
     # 3. Ergebnis speichern
+    result2Return = ""
     if "result" in result:
         collection.delete_many({})
+        result2Return = result["result"]
         collection.insert_one({
-            "data": result["result"]
+            "data": result2Return
         })
         print("Messungsergebnis in MongoDB gespeichert.")
     else:
@@ -50,8 +52,8 @@ def trigger_measurement_and_store():
     else:
         print(f"Fehler beim Löschen der Messung: {delete_response.status_code}")
 
-    # Verbindung zur MongoDB schließen
     client.close()
+    return result2Return
 
 while True:
     trigger_measurement_and_store()
