@@ -30,6 +30,8 @@ def trigger_measurement_and_store():
         response = requests.get(measurement_url)
         result = response.json()
 
+        print(result)
+
         if result["state"] == "measured":
             print("Messung abgeschlossen.")
             break
