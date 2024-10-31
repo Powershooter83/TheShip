@@ -60,6 +60,3 @@ def trigger_measurement_and_store():
     client.close()
     return result2Return
 
-while True:
-    trigger_measurement_and_store()
-    time.sleep(1)
