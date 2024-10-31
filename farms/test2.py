@@ -1,9 +1,9 @@
-import requests from flask
-import Flask
+import app
+import requests
+from flask import Flask
+app = Flask(__name__)
 
-app = (Flask(__name__)
-
-@app.route(rule="/", methods=["GET"]))
+@app.route(rule="/", methods=["GET"])
 def get_data():
     try:
         response = requests.get("http://192.168.100.21:2038/data")
