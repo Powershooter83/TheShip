@@ -37,7 +37,7 @@ def trigger_measurement_and_store():
             break
         else:
             print("Messung läuft...")
-            time.sleep(2)  # Wartezeit für erneute Abfragen
+            time.sleep(2)
 
     # 3. Ergebnis speichern
     result2Return = ""
