@@ -16,6 +16,7 @@ def trigger_measurement_and_store():
     if response.status_code == 201:
         print("Messung erfolgreich angefordert.")
     else:
+        print(response)
         print(f"Fehler beim Anfordern der Messung: {response.status_code}")
         return
 
