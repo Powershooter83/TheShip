@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route(rule="/", methods=["GET"])
 def get_data():
     try:
-        response = requests.get("http://192.168.100.21:2038/data")
+        response = requests.get("http://192.168.100.21:2038/data", timeout=1)
         json = response.json()
         return {"data": json.get("atomic_field_value")}
     except Exception as e:
