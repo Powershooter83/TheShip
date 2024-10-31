@@ -1,3 +1,5 @@
+import uuid
+
 import requests
 import time
 from pymongo import MongoClient
@@ -8,9 +10,11 @@ def trigger_measurement_and_store():
     db = client['theshipdb']
     collection = db['vacuum-energy']
 
+    random = str(uuid.uuid4())
+
 
     trigger_url = "http://192.168.100.21:2037/trigger_measurement"
-    data = {"request_id": "my_id_001"}
+    data = {"request_id": random}
     response = requests.post(trigger_url, json=data)
 
     if response.status_code == 201:
@@ -21,7 +25,7 @@ def trigger_measurement_and_store():
         return
 
     # 2. Messungsstatus abrufen
-    measurement_url = "http://192.168.100.21:2037/measurements/my_id_001"
+    measurement_url = "http://192.168.100.21:2037/measurements/" + random
     while True:
         response = requests.get(measurement_url)
         result = response.json()
