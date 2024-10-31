@@ -62,7 +62,7 @@ def aim_laser():
             state = state_laser()
             if state == LaserState.IS_MINING:
                 break
-            angle += 30
+            angle += 22
         return response.status_code, response.text
     except requests.exceptions.RequestException as e:
         raise e
