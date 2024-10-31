@@ -9,7 +9,7 @@ class Item(Enum):
     URAN = "URAN"
     IRIDIUM = "IRIDIUM"
     FRAGILON = "FRAGILON"
-
+    MAGNON = "MAGNON"
 
 class ItemContainer:
     def __init__(self, item: Item, amount: int):
