@@ -9,7 +9,7 @@ from modules.MeasurementHandler import trigger_measurement_and_store
 class SensorVoidEnergyServer(pb2_grpc.SensorVoidEnergyServerServicer):
     def read_sensor_data(self, request, context):
         try:
-            response = trigger_measurement_and_store()
+            response = "test"
             hex_data = response
             return pb2.SensorData(hexdata=hex_data)
         except requests.RequestException as e:
