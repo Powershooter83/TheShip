@@ -20,10 +20,10 @@ def wait_for_station():
 
 
 def search_colony():
-    center_x = -80000
-    center_y = -80000
+    center_x = 0
+    center_y = 0
 
-    deviation = 32000
+    deviation = 100000
 
     start_x = center_x - deviation
     end_x = center_x + deviation
