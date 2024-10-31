@@ -3,6 +3,8 @@ from concurrent import futures
 import requests
 import api_pb2 as pb2
 import api_pb2_grpc as pb2_grpc
+from modules.MeasurementHandler import trigger_measurement_and_store
+
 
 class SensorVoidEnergyServer(pb2_grpc.SensorVoidEnergyServerServicer):
     def read_sensor_data(self, request, context):
