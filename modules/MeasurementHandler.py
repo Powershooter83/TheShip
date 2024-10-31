@@ -44,6 +44,7 @@ def trigger_measurement_and_store():
 
     # 4. Messung löschen
     delete_response = requests.delete(measurement_url)
+    print(delete_response)
     if delete_response.status_code == 200:
         print("Messung erfolgreich gelöscht.")
     else:
@@ -52,6 +53,6 @@ def trigger_measurement_and_store():
     # Verbindung zur MongoDB schließen
     client.close()
 
-
-# Methode ausführen
-trigger_measurement_and_store()
+while True:
+    trigger_measurement_and_store()
+    time.sleep(1)

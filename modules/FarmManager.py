@@ -40,8 +40,11 @@ class FarmManager:
     def start(self):
         laser_thread = None
         buy_thread = None
+        print("TOTAL_STOP-1")
+        print(self.buy_station.name)
         steer_to_station(self.buy_station)
         wait_for_station_and_total_stop(self.buy_station)
+        print("TOTAL_STOP")
         if self.laser:
             aim_laser()
             laser_thread = threading.Thread(target=start_laser_thread)

@@ -74,6 +74,16 @@ def wait_for_station_and_total_stop(searched_station: Station):
             last_position = current_position
 
 
+def steer_to_type(type):
+    wait_for_station(type)
+
+    while True:
+        sleep(1)
+        current_position = get_current_position()
+
+
+
+
 def is_within_tolerance(position: Vector2, target: Vector2, tolerance: float = 150):
     return (abs(position.x - target.x) <= tolerance) and (abs(position.y - target.y) <= tolerance)
 

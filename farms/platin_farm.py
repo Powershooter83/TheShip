@@ -5,5 +5,6 @@ from modules.FarmManager import FarmManager
 
 
 platin_farm = FarmManager(StationEnum.CORE.value,
-                        Station("Platin Mountain", Vector2(50000, 77457), None), Item.PLATIN, True)
+                        Station("Platin Mountain", Vector2(50000, 77457), None),
+                          Item.PLATIN, True)
 platin_farm.start()

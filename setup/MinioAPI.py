@@ -64,6 +64,25 @@ def __zurro_interface_receive(destination_station: Station):
     return {"kind": "success", "messages": messages}
 
 
+def __station21_a_receive(destination_station: Station):
+    server_ip = "192.168.100.21"
+    server_port = 2034
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.connect((server_ip, server_port))
+
+        while True:
+            header = sock.recv(3)
+            if len(header) < 3:
+                break
+            msg_size, src_dst_size = struct.unpack('!HB', header)
+            msg = sock.recv(msg_size - src_dst_size - 1)
+
+            print(msg.decode('utf-8'))
+
+
+__station21_a_receive(StationEnum.AZURA.value)
+
 def __aurora_interface_receive(destination_station: Station):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.connect((HOST, 2031))
