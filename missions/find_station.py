@@ -23,7 +23,7 @@ def search_colony():
     center_x = 0
     center_y = 0
 
-    deviation = 100000
+    deviation = 150000
 
     start_x = center_x - deviation
     end_x = center_x + deviation
