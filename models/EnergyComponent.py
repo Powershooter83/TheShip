@@ -16,6 +16,7 @@ class EnergyComponentEnum(Enum):
     SENSOR_VOID_ENERGY = "sensor_void_energy"
     SHIELD_GENERATOR = "shield_generator"
     ANALYZER_ALPHA = "analyzer_alpha"
+    MATTER_STABILIZER = "matter_stabilizer"
 
 
 class EnergyComponent:

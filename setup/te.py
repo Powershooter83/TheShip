@@ -1,13 +1,8 @@
-from time import sleep
 
-from opcua import Client
-
-from models.EnergyComponent import EnergyComponent, EnergyComponentEnum
-from models.Environment import BASE_URL_JUMPDRIVE
 from models.Vector2 import Vector2
-from modules.EnergyHandler import set_all_components_to_value, set_energy
-from modules.JumpDriveHandler import jumpdrive
-from modules.MeasurementHandler import trigger_measurement_and_store
-from modules.ScannerHandler import get_current_position
+from modules.EasySteeringHandler import steer_to_coordinates
+from modules.EnergyHandler import set_all_components_to_value, set_energy, energy_mode_flying
 
-trigger_measurement_and_store()
+energy_mode_flying()
+steer_to_coordinates(Vector2(-91771, 97201))
+#steer_to_coordinates(Vector2(0, 0))

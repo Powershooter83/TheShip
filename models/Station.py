@@ -23,6 +23,7 @@ class ResourceEnum(Enum):
     PLATIN = Station("Platin Mountain", Vector2(50700,78000), None)
     FRAGILON = Station("Fragilon Rock", Vector2(44200, -53911), None)
     MAGNON = Station("Magnon Rock", Vector2(-40300, -51638), None)
+    CHRON = Station("Chron", Vector2(0, 0), None)
 
 class StationEnum(Enum):
     ARAK = Station("Arak Station", Vector2(2712, -4044.0), None)
