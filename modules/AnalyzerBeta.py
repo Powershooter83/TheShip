@@ -297,7 +297,7 @@ def is_first_array_filled():
 
 
 energy_mode_flying()
-steer_to_coordinates(Vector2(-18700, 12727))
+steer_to_coordinates(Vector2(40300, 53134))
 wait_for_station_and_total_stop(ResourceEnum.CHRON.value)
 set_energy(EnergyComponent(EnergyComponentEnum.SENSOR_ATOMIC_FIELD, 1))
 set_energy(EnergyComponent(EnergyComponentEnum.MATTER_STABILIZER, 1))
